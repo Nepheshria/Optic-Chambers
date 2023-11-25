@@ -88,12 +88,17 @@ public class Lazer : MonoBehaviour
         // float circleRadius = iVector.magnitude;
         // float angleCenter = Mathf.PI - 2 * rRad;
         // Vector2 newStartingPoint = (Vector2)hit.transform.position + rotate(iVector,angleCenter);
-
+        
         Vector2 newStartingPoint = hit.point + entry.normalized;
         
         // Add step to list
         stepNumber++;
         stepList.Add(newStartingPoint);
+        
+        // Animation
+        Animator boostAnimator = hit.transform.GetComponent<Animator>();
+        boostAnimator.SetBool("Activated", true);
+        hit.transform.GetComponent<AnimationTriggerManagment>().Hit();
         
         // Shoot new laser
         ShootLaser(rayPower+ResonatorBoostPower, entry, newStartingPoint);
