@@ -9,7 +9,9 @@ public class Lazer : MonoBehaviour
     [SerializeField] private float ResonatorBoostPower = 10;
     private LayerMask laserLayer;
     private int stepNumber = 1;
-    private List<Vector2> stepList = new List<Vector2>();
+    private int NumberOfLaser = 0;
+
+    private List<LaserObject> Lasers;
     public LineRenderer m_lineRenderer;
     public Transform laserFirePoint;
     private Transform m_transform;
@@ -22,7 +24,7 @@ public class Lazer : MonoBehaviour
         laserLayer |= (1 << LayerMask.NameToLayer("Default"));
     }
 
-    void ShootLaser(float rayPower, Vector2 laserDirectorVector, Vector2 startPoint)
+    void ShootLaser(int laserNumber, float rayPower, Vector2 laserDirectorVector, Vector2 startPoint)
     {
         RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower, laserLayer);
         if (hit)
@@ -38,20 +40,22 @@ public class Lazer : MonoBehaviour
                         ComputeResonatorBoost(laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "WinTarget":
-                        //Debug.Log("Win");
-                        stepNumber++;
-                        stepList.Add(hit.point);
+                        Debug.Log("Win");
+                        Lasers[laserNumber].addStep(hit.point);
+                        break;
+                    case "ResonatorJumeling":
+                        //Debug.Log("Jumeling");
+                        ComputeResonatorJumelor(laserDirectorVector, hit, rayPower-hit.distance);
+                        Lasers[laserNumber].addStep(hit.point);
                         break;
                     default:
-                        stepNumber++;
-                        stepList.Add(hit.point);
+                        Lasers[laserNumber].addStep(hit.point);
                         break;
                 }
         }
         else
         {
-            stepNumber++;
-            stepList.Add((startPoint + (laserDirectorVector * (rayPower))));
+            Lasers[laserNumber].addStep(startPoint + laserDirectorVector * rayPower);
         }
         
     }
@@ -78,20 +82,6 @@ public class Lazer : MonoBehaviour
 
     void ComputeResonatorBoost(Vector2 entry, RaycastHit2D hit, float rayPower)
     {
-        // // Compute i angle
-        // Vector2 iVector = ((Vector2)hit.transform.position - entry).normalized;
-        // Vector2 normalizedEntry = entry.normalized;
-        // float iRad = Vector2.Angle(iVector, normalizedEntry)*Mathf.Deg2Rad;
-        //
-        // // Compute new laser angle
-        // Vector2 laserDirectorVector = rotate(entry, iRad).normalized;
-        //
-        // // Compute new laser starting Position
-        // float rRad = ComputeRefractationAngle(1, 1.5f, iRad);
-        // float circleRadius = iVector.magnitude;
-        // float angleCenter = Mathf.PI - 2 * rRad;
-        // Vector2 newStartingPoint = (Vector2)hit.transform.position + rotate(iVector,angleCenter);
-        
         Vector2 newStartingPoint = hit.point + entry.normalized;
         
         // Add step to list
@@ -107,6 +97,14 @@ public class Lazer : MonoBehaviour
         ShootLaser(rayPower+ResonatorBoostPower, entry, newStartingPoint);
     }
 
+    void ComputeResonatorJumelor(Vector2 entry, RaycastHit2D hit, float rayPower)
+    {
+        
+        
+        
+    }
+    
+    
     /**
      * n0 origin environment
      * n1 exit environment
@@ -128,9 +126,11 @@ public class Lazer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        stepList = new List<Vector2>();
-        stepNumber = 1;
-        ShootLaser(RayDistance, laserFirePoint.transform.right, laserFirePoint.position);
+        Lasers = new List<LaserObject>();
+        Lasers.Add(new LaserObject(m_lineRenderer));
+        Lasers[0].addStep(laserFirePoint.position);
+        NumberOfLaser = 1;
+        ShootLaser(0, RayDistance, laserFirePoint.transform.right, laserFirePoint.position);
         Draw2DRay();
     }
     
@@ -143,12 +143,9 @@ public class Lazer : MonoBehaviour
     
     void Draw2DRay()
     {
-        m_lineRenderer.positionCount = stepList.Count+1;
-        int iterator = 1;
-        foreach (Vector2 point in stepList)
+        foreach (LaserObject laser in Lasers)
         {
-            m_lineRenderer.SetPosition(iterator, point);
-            iterator++;
+            laser.Draw();
         }
     }
 }
