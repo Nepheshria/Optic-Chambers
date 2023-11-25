@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0da1e019168039799d0c5f4b5ae40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayDistance: 10
-  ResonatorBoostPower: 10
+  RayDistance: 20
+  ResonatorBoostPower: 15
   m_lineRenderer: {fileID: 2421559958264178125}
   laserFirePoint: {fileID: 2421559958264178123}
 --- !u!1 &2421559958589371608
