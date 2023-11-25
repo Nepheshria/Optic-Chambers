@@ -70,24 +70,28 @@ public class Lazer : MonoBehaviour
 
     void ComputeResonatorBoost(Vector2 entry, RaycastHit2D hit, float rayPower)
     {
-        // Compute i angle
-        Vector2 iVector = ((Vector2)hit.transform.position - entry).normalized;
-        Vector2 normalizedEntry = entry.normalized;
-        float i = Vector2.Angle(iVector, normalizedEntry);
-        
-        // Compute new laser angle
-        Vector2 laserDirectorVector =
-        
-        // Compute new laser starting Position
-        
-        Vector2 newStartingPoint = new Vector2();
+        // // Compute i angle
+        // Vector2 iVector = ((Vector2)hit.transform.position - entry).normalized;
+        // Vector2 normalizedEntry = entry.normalized;
+        // float iRad = Vector2.Angle(iVector, normalizedEntry)*Mathf.Deg2Rad;
+        //
+        // // Compute new laser angle
+        // Vector2 laserDirectorVector = rotate(entry, iRad).normalized;
+        //
+        // // Compute new laser starting Position
+        // float rRad = ComputeRefractationAngle(1, 1.5f, iRad);
+        // float circleRadius = iVector.magnitude;
+        // float angleCenter = Mathf.PI - 2 * rRad;
+        // Vector2 newStartingPoint = (Vector2)hit.transform.position + rotate(iVector,angleCenter);
+
+        Vector2 newStartingPoint = hit.point + entry.normalized;
         
         // Add step to list
         stepNumber++;
         stepList.Add(newStartingPoint);
         
         // Shoot new laser
-        ShootLaser(rayPower+ResonatorBoostPower, laserDirectorVector, newStartingPoint);
+        ShootLaser(rayPower+ResonatorBoostPower, entry, newStartingPoint);
     }
 
     /**
@@ -95,10 +99,18 @@ public class Lazer : MonoBehaviour
      * n1 exit environment
      * i origin angle
      */
-    float ComputeRefractation(float n0, float n1, float i)
+    float ComputeRefractationAngle(float n0, float n1, float i)
     {
         return Mathf.Asin((n0 / n1) * Mathf.Sin(i));
     }
+    
+    public static Vector2 rotate(Vector2 v, float delta) {
+        return new Vector2(
+            v.x * Mathf.Cos(delta) - v.y * Mathf.Sin(delta),
+            v.x * Mathf.Sin(delta) + v.y * Mathf.Cos(delta)
+        );
+    }
+
 
     // Update is called once per frame
     void Update()
