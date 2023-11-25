@@ -33,11 +33,11 @@ public class Lazer : MonoBehaviour
                 {
                     case "Mirror":
                         //Debug.Log("mirror");
-                        ComputeMirror(laserDirectorVector, hit, rayPower-hit.distance);
+                        ComputeMirror(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "ResonatorBoost":
                         //Debug.Log("resonatorBoost");
-                        ComputeResonatorBoost(laserDirectorVector, hit, rayPower-hit.distance);
+                        ComputeResonatorBoost(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "WinTarget":
                         Debug.Log("Win");
@@ -45,7 +45,7 @@ public class Lazer : MonoBehaviour
                         break;
                     case "ResonatorJumeling":
                         //Debug.Log("Jumeling");
-                        ComputeResonatorJumelor(laserDirectorVector, hit, rayPower-hit.distance);
+                        ComputeResonatorJumelor(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
                         Lasers[laserNumber].addStep(hit.point);
                         break;
                     default:
@@ -59,10 +59,8 @@ public class Lazer : MonoBehaviour
         }
         
     }
-
     
-
-    void ComputeMirror(Vector2 inputLaser, RaycastHit2D hit, float rayPower)
+    void ComputeMirror(int laserNumber, Vector2 inputLaser, RaycastHit2D hit, float rayPower)
     {
         // Compute new laser angle
         Vector2 laserDirectorVector = Vector2.Reflect(inputLaser, hit.normal);
@@ -72,21 +70,26 @@ public class Lazer : MonoBehaviour
         Vector2 newStartingPoint = hit.point + laserDirectorVector.normalized*0.1f;
         
         // Add step to list
-        stepNumber++;
-        stepList.Add(hit.point);
+        Lasers[laserNumber].addStep(hit.point);
         
         // Shoot new laser
         //Debug.Log("mirror - "+laserDirectorVector);
-        ShootLaser(rayPower, laserDirectorVector, newStartingPoint);
+        ShootLaser(laserNumber, rayPower, laserDirectorVector, newStartingPoint);
+    }
+    
+    void ComputeSplit(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
+    {
+        
+        
+        
     }
 
-    void ComputeResonatorBoost(Vector2 entry, RaycastHit2D hit, float rayPower)
+    void ComputeResonatorBoost(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
     {
         Vector2 newStartingPoint = hit.point + entry.normalized;
         
         // Add step to list
-        stepNumber++;
-        stepList.Add(newStartingPoint);
+        Lasers[laserNumber].addStep(hit.point);
         
         // Animation
         Animator boostAnimator = hit.transform.GetComponent<Animator>();
@@ -94,15 +97,17 @@ public class Lazer : MonoBehaviour
         hit.transform.GetComponent<AnimationTriggerManagment>().Hit();
         
         // Shoot new laser
-        ShootLaser(rayPower+ResonatorBoostPower, entry, newStartingPoint);
+        ShootLaser(laserNumber, rayPower+ResonatorBoostPower, entry, newStartingPoint);
     }
 
-    void ComputeResonatorJumelor(Vector2 entry, RaycastHit2D hit, float rayPower)
+    void ComputeResonatorJumelor(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
     {
         
         
         
     }
+    
+    
     
     
     /**
