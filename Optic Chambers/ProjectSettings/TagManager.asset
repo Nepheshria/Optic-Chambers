@@ -7,6 +7,7 @@ TagManager:
   - Mirror
   - ResonatorBoost
   - WinTarget
+  - ResonatorJumeling
   layers:
   - Default
   - TransparentFX
