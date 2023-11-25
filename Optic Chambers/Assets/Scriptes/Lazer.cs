@@ -6,6 +6,8 @@ public class Lazer : MonoBehaviour
 {
     [SerializeField] private float RayDistance = 10;
     [SerializeField] private float ResonatorBoostPower = 10;
+    private int stepNumber = 1;
+    private List<Vector2> stepList = new List<Vector2>();
     public LineRenderer m_lineRenderer;
     public Transform laserFirePoint;
     private Transform m_transform;
@@ -13,49 +15,115 @@ public class Lazer : MonoBehaviour
 
     private void Awake()
     {
+        m_lineRenderer.SetPosition(0, laserFirePoint.position);
         m_transform = GetComponent<Transform>();
     }
 
     void ShootLaser(float rayPower, Vector2 laserDirectorVector, Vector2 startPoint)
     {
-        RaycastHit2D _hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower);
-        if (_hit)
+        RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower);
+        if (hit)
         {
-                switch (_hit.transform.tag)
+                switch (hit.transform.tag)
                 {
                     case "Mirror":
                         Debug.Log("mirror");
-                        Vector2 newLaserDirection = ComputeMirrotOutput(laserDirectorVector, _hit);
-                        ShootLaser(rayPower-_hit.distance, newLaserDirection, _hit.point);
+                        ComputeMirror(laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "ResonatorBoost":
                         Debug.Log("resonatorBoost");
-                        ShootLaser(rayPower-_hit.distance+ResonatorBoostPower, laserDirectorVector, _hit.point);
+                        ComputeResonatorBoost(laserDirectorVector, hit, rayPower-hit.distance);
+                        break;
+                    default:
+                        stepNumber++;
+                        stepList.Add(hit.point);
                         break;
                 }
-                Draw2DRay(startPoint, _hit.point);
         }
         else
         {
-            Draw2DRay(startPoint, (startPoint + (laserDirectorVector * (rayPower))));
+            stepNumber++;
+            stepList.Add((startPoint + (laserDirectorVector * (rayPower))));
         }
         
     }
 
-    void Draw2DRay(Vector2 startPoint, Vector2 endPoint)
+    
+
+    void ComputeMirror(Vector2 inputLaser, RaycastHit2D hit, float rayPower)
     {
-        m_lineRenderer.SetPosition(0, startPoint);
-        m_lineRenderer.SetPosition(1, endPoint);
+        // Compute new laser angle
+        Vector2 laserDirectorVector = Vector2.Reflect(inputLaser, hit.normal);
+        
+        // Compute new laser starting Position
+
+        Vector2 newStartingPoint = hit.point + hit.normal*0.1f;
+        
+        // Add step to list
+        stepNumber++;
+        stepList.Add(newStartingPoint);
+        
+        // Shoot new laser
+        Debug.Log("mirror - "+laserDirectorVector);
+        ShootLaser(rayPower, laserDirectorVector, newStartingPoint);
     }
 
-    Vector2 ComputeMirrotOutput(Vector2 inputLaser, RaycastHit2D _hit)
+    void ComputeResonatorBoost(Vector2 entry, RaycastHit2D hit, float rayPower)
     {
-        return new Vector2();
+        // Compute i angle
+        Vector2 iVector = ((Vector2)hit.transform.position - entry).normalized;
+        Vector2 normalizedEntry = entry.normalized;
+        float i = Vector2.Angle(iVector, normalizedEntry);
+        
+        // Compute new laser angle
+        Vector2 laserDirectorVector =
+        
+        // Compute new laser starting Position
+        
+        Vector2 newStartingPoint = new Vector2();
+        
+        // Add step to list
+        stepNumber++;
+        stepList.Add(newStartingPoint);
+        
+        // Shoot new laser
+        ShootLaser(rayPower+ResonatorBoostPower, laserDirectorVector, newStartingPoint);
+    }
+
+    /**
+     * n0 origin environment
+     * n1 exit environment
+     * i origin angle
+     */
+    float ComputeRefractation(float n0, float n1, float i)
+    {
+        return Mathf.Asin((n0 / n1) * Mathf.Sin(i));
     }
 
     // Update is called once per frame
     void Update()
     {
+        stepList = new List<Vector2>();
+        stepNumber = 1;
         ShootLaser(RayDistance, laserFirePoint.transform.right, laserFirePoint.position);
+        Draw2DRay();
+    }
+    
+    // void Draw2DRay(Vector2 startPoint, Vector2 endPoint)
+    // {
+    //     m_lineRenderer.SetPosition(stepNumber, startPoint);
+    //     m_lineRenderer.SetPosition(stepNumber+1, endPoint);
+    //     stepNumber++;
+    // }
+    
+    void Draw2DRay()
+    {
+        m_lineRenderer.positionCount = stepList.Count+1;
+        int iterator = 1;
+        foreach (Vector2 point in stepList)
+        {
+            m_lineRenderer.SetPosition(iterator, point);
+            iterator++;
+        }
     }
 }
