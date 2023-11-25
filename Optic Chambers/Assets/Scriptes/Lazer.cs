@@ -34,6 +34,11 @@ public class Lazer : MonoBehaviour
                         Debug.Log("resonatorBoost");
                         ComputeResonatorBoost(laserDirectorVector, hit, rayPower-hit.distance);
                         break;
+                    case "WinTarget":
+                        Debug.Log("Win");
+                        stepNumber++;
+                        stepList.Add(hit.point);
+                        break;
                     default:
                         stepNumber++;
                         stepList.Add(hit.point);
