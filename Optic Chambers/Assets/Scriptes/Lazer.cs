@@ -62,11 +62,11 @@ public class Lazer : MonoBehaviour
         
         // Compute new laser starting Position
 
-        Vector2 newStartingPoint = hit.point + hit.normal*0.1f;
+        Vector2 newStartingPoint = hit.point + laserDirectorVector.normalized*0.1f;
         
         // Add step to list
         stepNumber++;
-        stepList.Add(newStartingPoint);
+        stepList.Add(hit.point);
         
         // Shoot new laser
         Debug.Log("mirror - "+laserDirectorVector);
