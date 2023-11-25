@@ -73,7 +73,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Positions:
   - {x: 1.39, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0da1e019168039799d0c5f4b5ae40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayDistance: 20
-  ResonatorBoostPower: 15
+  RayDistance: 25
+  ResonatorBoostPower: 20
   m_lineRenderer: {fileID: 2421559958264178125}
   laserFirePoint: {fileID: 2421559958264178123}
 --- !u!1 &2421559958589371608
@@ -262,7 +262,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: fff1692d346e8ef4588e24fa13e6e2aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 2421559958264178125, guid: d663546f945dc93949570e7167d26c8c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2421559958589371608, guid: d663546f945dc93949570e7167d26c8c, type: 3}
       propertyPath: m_Name
       value: LazerBase

@@ -5,17 +5,13 @@ using UnityEngine;
 
 public class AnimationTriggerManagment : MonoBehaviour
 {
-    private Animator _animator;
+    [SerializeField]private Animator _animator;
     private float lastHitTime;
-    const float collisionInterval = 1.0f;
-    
-    private void Awake()
-    {
-        GetComponent<Animator>();
-    }
+    const float collisionInterval = 1000f;
 
     public void Update()
     {
+        //Debug.Log(lastHitTime + " "+ Time.time + " "+collisionInterval);
         if (lastHitTime - Time.time < collisionInterval) //Time elapsed since last collision
             shutDown();
     }
