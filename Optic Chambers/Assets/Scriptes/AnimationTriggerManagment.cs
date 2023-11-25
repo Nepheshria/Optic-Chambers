@@ -11,7 +11,7 @@ public class AnimationTriggerManagment : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(lastHitTime + " "+ Time.time + " "+collisionInterval);
+        //Debug.Log(lastHitTime + " "+ Time.time + " "+collisionInterval);
         if (lastHitTime - Time.time < collisionInterval) //Time elapsed since last collision
             shutDown();
     }

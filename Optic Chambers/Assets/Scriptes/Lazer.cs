@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Lazer : MonoBehaviour
 {
     [SerializeField] private float RayDistance = 10;
     [SerializeField] private float ResonatorBoostPower = 10;
+    private LayerMask laserLayer;
     private int stepNumber = 1;
     private List<Vector2> stepList = new List<Vector2>();
     public LineRenderer m_lineRenderer;
@@ -17,25 +19,26 @@ public class Lazer : MonoBehaviour
     {
         m_lineRenderer.SetPosition(0, laserFirePoint.position);
         m_transform = GetComponent<Transform>();
+        laserLayer |= (1 << LayerMask.NameToLayer("Default"));
     }
 
     void ShootLaser(float rayPower, Vector2 laserDirectorVector, Vector2 startPoint)
     {
-        RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower);
+        RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower, laserLayer);
         if (hit)
         {
                 switch (hit.transform.tag)
                 {
                     case "Mirror":
-                        Debug.Log("mirror");
+                        //Debug.Log("mirror");
                         ComputeMirror(laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "ResonatorBoost":
-                        Debug.Log("resonatorBoost");
+                        //Debug.Log("resonatorBoost");
                         ComputeResonatorBoost(laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "WinTarget":
-                        Debug.Log("Win");
+                        //Debug.Log("Win");
                         stepNumber++;
                         stepList.Add(hit.point);
                         break;
@@ -69,7 +72,7 @@ public class Lazer : MonoBehaviour
         stepList.Add(hit.point);
         
         // Shoot new laser
-        Debug.Log("mirror - "+laserDirectorVector);
+        //Debug.Log("mirror - "+laserDirectorVector);
         ShootLaser(rayPower, laserDirectorVector, newStartingPoint);
     }
 
