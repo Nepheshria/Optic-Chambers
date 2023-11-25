@@ -63,7 +63,7 @@ public class LaserObject
         );
         lineRenderer.colorGradient = gradient;
         
-        lineRenderer.positionCount = stepList.Count;
+        lineRenderer.positionCount = stepList.Count+1;
         
         int iterator = 1;
         foreach (Vector2 point in stepList)
