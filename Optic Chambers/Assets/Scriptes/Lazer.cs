@@ -46,6 +46,10 @@ public class Lazer : MonoBehaviour
                         Debug.Log("Win");
                         Lasers[laserNumber].addStep(hit.point);
                         break;
+                        case "Button":
+                        Debug.Log("Button");
+                        Lasers[laserNumber].addStep(hit.point);
+                        break;
                     case "ResonatorJumeling":
                         //Debug.Log("Jumeling");
                         ComputeResonatorJumelor(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
@@ -121,6 +125,8 @@ public class Lazer : MonoBehaviour
         NumberOfLaser++;
 
     }
+    
+    // =================== Resonator =================== 
 
     void ComputeResonatorBoost(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
     {
@@ -175,12 +181,6 @@ public class Lazer : MonoBehaviour
         childLineRendererWeak.transform.position = childLineRendererWeak.transform.parent.position;
         copyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), m_lineRenderer, 0.5f);
         
-        // Shot Laser for test need to be replaced with twin system
-        // Lasers.Add(new LaserObject(childLineRendererWeak.GetComponent<LineRenderer>(),laserMaterial));
-        // ShootLaser(NumberOfLaser, rayPower, directorVector, exitPointWeak);
-        // Lasers[NumberOfLaser].setColor(Color.red * 1.5f);
-        // NumberOfLaser++;
-        
         // // Calculate symmetry axis & point
         Vector2 strongWeakVector2 = exitPointWeak - exitPointStrong;
         Vector2 symmetryAxisPoint = exitPointStrong + strongWeakVector2 / 2;
@@ -190,6 +190,10 @@ public class Lazer : MonoBehaviour
 
     }
 
+    // =================== Cuves ===================
+    
+    
+    
     void copyLineRendererSetting(LineRenderer lr1, LineRenderer lr2, float mult = 1)
     {
         lr1.widthCurve = lr2.widthCurve;
