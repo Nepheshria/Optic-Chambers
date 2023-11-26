@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 5596598537568319204}
   - component: {fileID: 1951472824088719698}
   - component: {fileID: -4743618772724702886}
+  - component: {fileID: 2392609406445418578}
   m_Layer: 0
-  m_Name: MovableResonator Boost
+  m_Name: MovableResonatorBoost
   m_TagString: ResonatorBoost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,12 +111,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5596598537568319205}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66c2504040acd19b1ba4aaa22267300c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 2392609406445418578}
 --- !u!114 &-4743618772724702886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,3 +129,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd5b1553dda6eaf3ab6eaa2946e9e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2392609406445418578
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596598537568319205}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 72f0d91fbf390a974b6610daaa10d48a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

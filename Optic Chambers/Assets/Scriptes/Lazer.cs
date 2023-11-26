@@ -52,7 +52,7 @@ public class Lazer : MonoBehaviour
                         Lasers[laserNumber].addStep(hit.point);
                         break;
                     case "SplitEntrace":
-                        //Debug.Log("Jumeling");
+                        //Debug.Log("Split");
                         ComputeSplit(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
                         Lasers[laserNumber].addStep(hit.point);
                         break;
@@ -140,7 +140,11 @@ public class Lazer : MonoBehaviour
 
     void ComputeResonatorJumelor(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
     {
-        
+        // Animation
+        Transform Sprite = hit.transform.GetChild(2);
+        Animator boostAnimator = Sprite.GetComponent<Animator>();
+        boostAnimator.SetBool("Activated", true);
+        Sprite.GetComponent<AnimationTriggerManagment>().Hit();
         
         
     }
