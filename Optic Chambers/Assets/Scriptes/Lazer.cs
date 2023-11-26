@@ -1,35 +1,40 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Lazer : MonoBehaviour
 {
-    [SerializeField] private float RayDistance = 10;
-    [SerializeField] private float ResonatorBoostPower = 10;
-    private LayerMask laserLayer;
-    private int NumberOfLaser = 0;
+    [FormerlySerializedAs("RayDistance")] [SerializeField] private float rayDistance = 10;
+    [FormerlySerializedAs("ResonatorBoostPower")] [SerializeField] private float resonatorBoostPower = 10;
+    private LayerMask _laserLayer;
+    private int _numberOfLaser;
 
-    private List<LaserObject> Lasers;
-    public LineRenderer m_lineRenderer;
+    private List<LaserObject> _lasers;
+    [FormerlySerializedAs("m_lineRenderer")] public LineRenderer mLineRenderer;
     public Transform laserFirePoint;
-    private Material laserMaterial;
-    private Transform m_transform;
-    private List<GameObject> lineRendererToDestroy;
+    private Material _laserMaterial;
+    private List<GameObject> _lineRendererToDestroy;
+
+    private static UIManager _uiManager;
+    private static readonly int Activated = Animator.StringToHash("Activated");
 
     private void Awake()
     {
-        m_lineRenderer.SetPosition(0, laserFirePoint.position);
-        laserMaterial = m_lineRenderer.material;
-        m_transform = GetComponent<Transform>();
-        laserLayer |= (1 << LayerMask.NameToLayer("Default"));
-        lineRendererToDestroy = new List<GameObject>();
+        mLineRenderer.SetPosition(0, laserFirePoint.position);
+        _laserMaterial = mLineRenderer.material;
+        _laserLayer |= (1 << LayerMask.NameToLayer("Default"));
+        _lineRendererToDestroy = new List<GameObject>();
+    }
+
+    private void Start()
+    {
+        _uiManager = UIManager.Instance;
     }
 
     void ShootLaser(int laserNumber, float rayPower, Vector2 laserDirectorVector, Vector2 startPoint)
     {
-        RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower, laserLayer);
+        RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector, rayPower, _laserLayer);
         if (hit)
         {
                 switch (hit.transform.tag)
@@ -44,30 +49,44 @@ public class Lazer : MonoBehaviour
                         break;
                     case "WinTarget":
                         Debug.Log("Win");
-                        Lasers[laserNumber].addStep(hit.point);
+                        _uiManager.LevelVictory();
+                        _lasers[laserNumber].addStep(hit.point);
                         break;
-                        case "Button":
+                    case "Button":
                         Debug.Log("Button");
-                        Lasers[laserNumber].addStep(hit.point);
+                        _lasers[laserNumber].addStep(hit.point);
+                        
+                        // Check ButtonColor
+                        ButtonManager button = hit.transform.GetComponent<ButtonManager>();
+                        if (button.isRightColor(_lasers[laserNumber]))
+                        {
+                            button.Activate();
+                        }
+                        else
+                        {
+                            Debug.Log("Wrong Color");
+                        }
+                        
+                        
                         break;
                     case "ResonatorJumeling":
                         //Debug.Log("Jumeling");
-                        ComputeResonatorJumelor(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
-                        Lasers[laserNumber].addStep(hit.point);
+                        ComputeResonatorTwin(hit, rayPower-hit.distance);
+                        _lasers[laserNumber].addStep(hit.point);
                         break;
                     case "SplitEntrace":
                         //Debug.Log("Split");
-                        ComputeSplit(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
-                        Lasers[laserNumber].addStep(hit.point);
+                        ComputeSplit(hit, rayPower-hit.distance);
+                        _lasers[laserNumber].addStep(hit.point);
                         break;
                     default:
-                        Lasers[laserNumber].addStep(hit.point);
+                        _lasers[laserNumber].addStep(hit.point);
                         break;
                 }
         }
         else
         {
-            Lasers[laserNumber].addStep(startPoint + laserDirectorVector * rayPower);
+            _lasers[laserNumber].addStep(startPoint + laserDirectorVector * rayPower);
         }
         
     }
@@ -82,14 +101,14 @@ public class Lazer : MonoBehaviour
         Vector2 newStartingPoint = hit.point + laserDirectorVector.normalized*0.1f;
         
         // Add step to list
-        Lasers[laserNumber].addStep(hit.point);
+        _lasers[laserNumber].addStep(hit.point);
         
         // Shoot new laser
         //Debug.Log("mirror - "+laserDirectorVector);
         ShootLaser(laserNumber, rayPower, laserDirectorVector, newStartingPoint);
     }
     
-    void ComputeSplit(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
+    void ComputeSplit(RaycastHit2D hit, float rayPower)
     {
         // Recover Exit point
         Vector2 exitPoint1 = hit.transform.GetChild(0).transform.position;
@@ -104,25 +123,25 @@ public class Lazer : MonoBehaviour
 
         // Laser Exit 1
         GameObject childLineRenderer = new GameObject();
-        lineRendererToDestroy.Add(childLineRenderer);
+        _lineRendererToDestroy.Add(childLineRenderer);
         childLineRenderer.AddComponent<LineRenderer>();
         childLineRenderer.transform.parent = hit.transform.GetChild(0).transform;
         childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
-        copyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), m_lineRenderer);
-        Lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),laserMaterial));
-        ShootLaser(NumberOfLaser, rayPower/2, directorVectorExit1, exitPoint1);
-        NumberOfLaser++;
+        CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
+        _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
+        ShootLaser(_numberOfLaser, rayPower/2, directorVectorExit1, exitPoint1);
+        _numberOfLaser++;
 
         // Laser Exit 2
         GameObject childLineRenderer2 = new GameObject();
-        lineRendererToDestroy.Add(childLineRenderer2);
+        _lineRendererToDestroy.Add(childLineRenderer2);
         childLineRenderer2.AddComponent<LineRenderer>();
         childLineRenderer2.transform.parent = hit.transform.GetChild(1).transform;
         childLineRenderer2.transform.position = childLineRenderer2.transform.parent.position;
-        copyLineRendererSetting(childLineRenderer2.GetComponent<LineRenderer>(), m_lineRenderer);
-        Lasers.Add(new LaserObject(childLineRenderer2.GetComponent<LineRenderer>(), laserMaterial));
-        ShootLaser(NumberOfLaser, rayPower/2, directorVectorExit2, exitPoint2);
-        NumberOfLaser++;
+        CopyLineRendererSetting(childLineRenderer2.GetComponent<LineRenderer>(), mLineRenderer);
+        _lasers.Add(new LaserObject(childLineRenderer2.GetComponent<LineRenderer>(), _laserMaterial));
+        ShootLaser(_numberOfLaser, rayPower/2, directorVectorExit2, exitPoint2);
+        _numberOfLaser++;
 
     }
     
@@ -133,18 +152,18 @@ public class Lazer : MonoBehaviour
         Vector2 newStartingPoint = hit.point + entry.normalized;
         
         // Add step to list
-        Lasers[laserNumber].addStep(hit.point);
+        _lasers[laserNumber].addStep(hit.point);
         
         // Animation
         Animator boostAnimator = hit.transform.GetComponent<Animator>();
-        boostAnimator.SetBool("Activated", true);
+        boostAnimator.SetBool(Activated, true);
         hit.transform.GetComponent<AnimationTriggerManagment>().Hit();
         
         // Shoot new laser
-        ShootLaser(laserNumber, rayPower+ResonatorBoostPower, entry, newStartingPoint);
+        ShootLaser(laserNumber, rayPower+resonatorBoostPower, entry, newStartingPoint);
     }
 
-    void ComputeResonatorJumelor(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
+    void ComputeResonatorTwin(RaycastHit2D hit, float rayPower)
     {
         // Recover Exit point
         Vector2 exitPointStrong = hit.transform.GetChild(0).transform.position;
@@ -157,36 +176,36 @@ public class Lazer : MonoBehaviour
         Vector2 directorVector = Vector2.right;
         
         // Animation
-        Transform Sprite = hit.transform.GetChild(2);
-        Animator boostAnimator = Sprite.GetComponent<Animator>();
-        boostAnimator.SetBool("Activated", true);
-        Sprite.GetComponent<AnimationTriggerManagment>().Hit();
+        Transform sprite = hit.transform.GetChild(2);
+        Animator boostAnimator = sprite.GetComponent<Animator>();
+        boostAnimator.SetBool(Activated, true);
+        sprite.GetComponent<AnimationTriggerManagment>().Hit();
         
         // Laser Strong
         GameObject childLineRenderer = new GameObject();
-        lineRendererToDestroy.Add(childLineRenderer);
+        _lineRendererToDestroy.Add(childLineRenderer);
         childLineRenderer.AddComponent<LineRenderer>();
         childLineRenderer.transform.parent = hit.transform.GetChild(0).transform;
         childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
-        copyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), m_lineRenderer);
-        Lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),laserMaterial));
-        ShootLaser(NumberOfLaser, rayPower, directorVector, exitPointStrong);
-        NumberOfLaser++;
+        CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
+        _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
+        ShootLaser(_numberOfLaser, rayPower, directorVector, exitPointStrong);
+        _numberOfLaser++;
         
         //Laser Weak
         GameObject childLineRendererWeak = new GameObject();
-        lineRendererToDestroy.Add(childLineRendererWeak);
+        _lineRendererToDestroy.Add(childLineRendererWeak);
         childLineRendererWeak.AddComponent<LineRenderer>();
         childLineRendererWeak.transform.parent = hit.transform.GetChild(1).transform;
         childLineRendererWeak.transform.position = childLineRendererWeak.transform.parent.position;
-        copyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), m_lineRenderer, 0.5f);
+        CopyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), mLineRenderer, 0.5f);
         
         // // Calculate symmetry axis & point
         Vector2 strongWeakVector2 = exitPointWeak - exitPointStrong;
         Vector2 symmetryAxisPoint = exitPointStrong + strongWeakVector2 / 2;
         
         // Set Twin
-        Lasers[NumberOfLaser-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
+        _lasers[_numberOfLaser-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
 
     }
 
@@ -194,7 +213,7 @@ public class Lazer : MonoBehaviour
     
     
     
-    void copyLineRendererSetting(LineRenderer lr1, LineRenderer lr2, float mult = 1)
+    void CopyLineRendererSetting(LineRenderer lr1, LineRenderer lr2, float mult = 1)
     {
         lr1.widthCurve = lr2.widthCurve;
         lr1.startWidth = lr2.startWidth * mult;
@@ -207,12 +226,12 @@ public class Lazer : MonoBehaviour
      * n1 exit environment
      * i origin angle
      */
-    float ComputeRefractationAngle(float n0, float n1, float i)
+    float ComputeRefractionAngle(float n0, float n1, float i)
     {
         return Mathf.Asin((n0 / n1) * Mathf.Sin(i));
     }
     
-    public static Vector2 rotate(Vector2 v, float delta) {
+    public static Vector2 Rotate(Vector2 v, float delta) {
         return new Vector2(
             v.x * Mathf.Cos(delta) - v.y * Mathf.Sin(delta),
             v.x * Mathf.Sin(delta) + v.y * Mathf.Cos(delta)
@@ -224,12 +243,13 @@ public class Lazer : MonoBehaviour
     void Update()
     {
         // Debug.Log("=======================");
-        Lasers = new List<LaserObject>();
-        destroyLineRenderer();
-        Lasers.Add(new LaserObject(m_lineRenderer, laserMaterial));
-        Lasers[0].addStep(laserFirePoint.position);
-        NumberOfLaser = 1;
-        ShootLaser(0, RayDistance, laserFirePoint.transform.right, laserFirePoint.position);
+        _lasers = new List<LaserObject>();
+        DestroyLineRenderer();
+        _lasers.Add(new LaserObject(mLineRenderer, _laserMaterial));
+        var position = laserFirePoint.position;
+        _lasers[0].addStep(position);
+        _numberOfLaser = 1;
+        ShootLaser(0, rayDistance, laserFirePoint.transform.right, position);
         //Debug.Log("Laser Number " + NumberOfLaser);
         //Debug.Log("Laser In List " + Lasers.Count);
         Draw2DRay();
@@ -238,20 +258,17 @@ public class Lazer : MonoBehaviour
     
     void Draw2DRay()
     {
-        int i = 0;
-        foreach (LaserObject laser in Lasers)
+        foreach (LaserObject laser in _lasers)
         {
-            // Debug.Log("Laser " + i);
             laser.Draw();
-            i++;
         }
     }
 
-    void destroyLineRenderer()
+    void DestroyLineRenderer()
     {
-        if (lineRendererToDestroy.Count!=0)
+        if (_lineRendererToDestroy.Count!=0)
         {
-            foreach (GameObject lineRend in lineRendererToDestroy)
+            foreach (GameObject lineRend in _lineRendererToDestroy)
             {
                 Destroy(lineRend);
             }
@@ -259,7 +276,7 @@ public class Lazer : MonoBehaviour
         
     }
 
-    public static Vector2 CheckColision(Vector2 startPoint, Vector2 endPoint)
+    public static Vector2 CheckCollision(Vector2 startPoint, Vector2 endPoint)
     {
         Vector2 laserDirectorVector = endPoint - startPoint;
         RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector.normalized, laserDirectorVector.magnitude);
@@ -269,6 +286,7 @@ public class Lazer : MonoBehaviour
             {
                 case "WinTarget":
                     Debug.Log("Win");
+                    _uiManager.LevelVictory();
                     return hit.point;
                 default:
                     return hit.point;

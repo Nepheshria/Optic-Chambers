@@ -4,5 +4,22 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    [SerializeField] private Color buttonColor;
+
+    public void changeDoorState()
+    {
+        
+    }
+    
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }

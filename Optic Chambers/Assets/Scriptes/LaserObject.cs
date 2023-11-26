@@ -34,6 +34,11 @@ public class LaserObject
         laserColor = color;
     }
     
+    public Color getColor()
+    {
+        return laserColor;
+    }
+    
     public void addStep(Vector2 stepPosition)
     {
         stepList.Add(stepPosition);
@@ -61,7 +66,7 @@ public class LaserObject
 
             if (i > 1)
             {
-                jumeledLaserObject.addStep(Lazer.CheckColision(jumeledLaserObject.stepList[jumeledLaserObject.stepList.Count-1], weakPoint));
+                jumeledLaserObject.addStep(Lazer.CheckCollision(jumeledLaserObject.stepList[jumeledLaserObject.stepList.Count-1], weakPoint));
                 if (jumeledLaserObject.stepList[jumeledLaserObject.stepList.Count-1] != weakPoint)
                 {
                     break;
