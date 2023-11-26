@@ -75,13 +75,11 @@ public class UIManager : MonoBehaviour
     }
     public void LevelVictory()
     {   
-        PauseGame();
         winscreen.SetActive(true);
     }
     public void NextLevel()
     {
-        PauseGame();
-
+        
         winscreen.SetActive(false);
         scene = SceneManager.GetActiveScene();
         SceneManager.LoadSceneAsync($"level{scene.buildIndex + 1}");
@@ -89,7 +87,6 @@ public class UIManager : MonoBehaviour
     
     public void BackMainScreen()
     {
-        PauseGame();
 
         winscreen.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
@@ -99,7 +96,6 @@ public class UIManager : MonoBehaviour
     }
     public void BackLevelScreen()
     {
-        PauseGame();
 
         winscreen.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
@@ -110,24 +106,4 @@ public class UIManager : MonoBehaviour
         UIManager.Instance.PlayMusic("Menu");
     }
 
-    public static bool gameIsPaused;
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            gameIsPaused = !gameIsPaused;
-            PauseGame();
-        }
-    }
-    void PauseGame ()
-    {
-        if(gameIsPaused)
-        {
-            Time.timeScale = 0f;
-        }
-        else 
-        {
-            Time.timeScale = 1;
-        }
-    }
 }
