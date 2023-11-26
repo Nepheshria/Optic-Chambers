@@ -7,22 +7,26 @@ public class AnimationTriggerManagment : MonoBehaviour
 {
     [SerializeField]private Animator _animator;
     private float lastHitTime;
-    const float collisionInterval = 1000f;
+    const float collisionInterval = 50f;
 
     public void Update()
     {
-        //Debug.Log(lastHitTime + " "+ Time.time + " "+collisionInterval);
-        if (lastHitTime - Time.time < collisionInterval) //Time elapsed since last collision
+        lastHitTime++;
+        // Debug.Log(lastHitTime);
+        if (lastHitTime >= collisionInterval) //Time elapsed since last collision
+        {
             shutDown();
+        }
     }
 
     public void Hit()
     {
-        lastHitTime = Time.time;
+        // Debug.Log("Hit");
+        lastHitTime = 0;
     }
 
     private void shutDown()
     {
         _animator.SetBool("Activated", false);
-    }
+    }   
 }

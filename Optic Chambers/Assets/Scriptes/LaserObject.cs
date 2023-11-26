@@ -19,10 +19,16 @@ public class LaserObject
     private LineRenderer lineRenderer;
     private Color laserColor = Color.red;
 
-    public LaserObject(LineRenderer lineRenderer)
+    public LaserObject(LineRenderer lineRenderer, Material laserMaterial)
     {
         this.lineRenderer = lineRenderer;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.material = laserMaterial;
+        addStep(lineRenderer.transform.position);
+    }
+
+    public void setColor(Color color)
+    {
+        laserColor = color;
     }
     
     public void addStep(Vector2 stepPosition)
@@ -30,9 +36,9 @@ public class LaserObject
         stepList.Add(stepPosition);
     }
 
-    public void setWeekTwin(Vector2 symetryAxis, Vector2 symetryAxisPoint)
+    public void setWeekTwin(Vector2 symetryAxis, Vector2 symetryAxisPoint, LineRenderer twinLineRenderer)
     {
-        jumeledLaserObject = new LaserObject(lineRenderer.transform.AddComponent<LineRenderer>());
+        jumeledLaserObject = new LaserObject(twinLineRenderer, lineRenderer.material);
         this.symetryAxis = symetryAxis;
         this.symetryAxisPoint = symetryAxisPoint;
         
@@ -52,29 +58,46 @@ public class LaserObject
     }
     
 
-    public void Draw()
+    public void Draw(bool isTwin = false)
     {
-        // A simple 2 color gradient with a fixed alpha of 1.0f.
-        float alpha = 1.0f;
-        Gradient gradient = new Gradient();
-        gradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(laserColor, 0.0f), new GradientColorKey(laserColor, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(0f, 1.0f) }
-        );
-        lineRenderer.colorGradient = gradient;
+        DefineColor(isTwin);
         
-        lineRenderer.positionCount = stepList.Count+1;
+        lineRenderer.positionCount = stepList.Count;
         
-        int iterator = 1;
+        int iterator = 0;
         foreach (Vector2 point in stepList)
         {
+            //Debug.Log(point);
             lineRenderer.SetPosition(iterator, point);
             iterator++;
         }
 
         if (jumeledLaserObject != null)
         {
-            jumeledLaserObject.Draw();
+            jumeledLaserObject.Draw(true);
         }
+    }
+
+    void DefineColor(bool isTwin)
+    {
+        if (isTwin)
+        {
+            laserColor *= 1.5f;
+        }
+        
+        // A simple 2 color gradient with a fixed alpha of 1.0f.
+        float alpha = 1.0f;
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(laserColor, 0.0f), new GradientColorKey(laserColor, 1.0f) },
+            new GradientAlphaKey[]
+            {
+                new GradientAlphaKey(alpha, 0.0f),
+                new GradientAlphaKey(0.8f, 0.8f),
+                new GradientAlphaKey(0f, 1.0f)
+            }
+        );
+        lineRenderer.colorGradient = gradient;
+        
     }
 }
