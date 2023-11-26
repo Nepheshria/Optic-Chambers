@@ -12,21 +12,21 @@ public class AudioManager : MonoBehaviour
  
     public void ToggleMusic()
     {
-        Singleton.Instance.ToggleMusic();
+        UIManager.Instance.ToggleMusic();
     }
 
     public void ToggleSfx()
     {
-        Singleton.Instance.ToggleSfx();
+        UIManager.Instance.ToggleSfx();
     }
 
     public void MusicVolume()
     {
-        Singleton.Instance.MusicVolume(_musicSlider.value);
+        UIManager.Instance.MusicVolume(_musicSlider.value);
     }
 
     public void SfxVolume()
     {
-        Singleton.Instance.SfxVolume(_sfxSlider.value);
+        UIManager.Instance.SfxVolume(_sfxSlider.value);
     }
 }

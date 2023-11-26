@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-public class Singleton : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public static Singleton Instance;
+    public static UIManager Instance;
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
     public GameObject winscreen;
@@ -93,9 +93,9 @@ public class Singleton : MonoBehaviour
 
         winscreen.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
-        Singleton.Instance.PlaySfx("Menu_back");
-        Singleton.Instance.musicSource.Stop();
-        Singleton.Instance.PlayMusic("Menu");
+        UIManager.Instance.PlaySfx("Menu_back");
+        UIManager.Instance.musicSource.Stop();
+        UIManager.Instance.PlayMusic("Menu");
     }
     public void BackLevelScreen()
     {
@@ -103,11 +103,11 @@ public class Singleton : MonoBehaviour
 
         winscreen.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
-        Singleton.Instance.PlaySfx("Menu_back");
+        UIManager.Instance.PlaySfx("Menu_back");
         MainMenu.SetActive(false);
         LevelsMenu.SetActive(true);
-        Singleton.Instance.musicSource.Stop();
-        Singleton.Instance.PlayMusic("Menu");
+        UIManager.Instance.musicSource.Stop();
+        UIManager.Instance.PlayMusic("Menu");
     }
 
     public static bool gameIsPaused;

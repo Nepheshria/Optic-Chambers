@@ -8,14 +8,14 @@ public class MainMenu : MonoBehaviour
     public void PlayGame(int level)
     {
         SceneManager.LoadSceneAsync($"Level{level}");
-        Singleton.Instance.musicSource.Stop();
-        Singleton.Instance.PlayMusic("Level");
+        UIManager.Instance.musicSource.Stop();
+        UIManager.Instance.PlayMusic("Level");
     }
     public void GoTemplate()
     {
         SceneManager.LoadSceneAsync("Templatelvl");
-        Singleton.Instance.musicSource.Stop();
-        Singleton.Instance.PlayMusic("Level");
+        UIManager.Instance.musicSource.Stop();
+        UIManager.Instance.PlayMusic("Level");
     }
     public void QuitGame()
     {
