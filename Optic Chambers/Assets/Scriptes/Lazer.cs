@@ -140,13 +140,54 @@ public class Lazer : MonoBehaviour
 
     void ComputeResonatorJumelor(int laserNumber, Vector2 entry, RaycastHit2D hit, float rayPower)
     {
+        // Recover Exit point
+        Vector2 exitPointStrong = hit.transform.GetChild(0).transform.position;
+        // print(hit.transform.GetChild(0).transform.position);
+        // Debug.Log(hit.transform.GetChild(0).name);
+        Vector2 exitPointWeak = hit.transform.GetChild(1).transform.position;
+        // Debug.Log(hit.transform.GetChild(1).name);
+        
+        // Craft exit Director Vector
+        Vector2 directorVector = Vector2.right;
+        
         // Animation
         Transform Sprite = hit.transform.GetChild(2);
         Animator boostAnimator = Sprite.GetComponent<Animator>();
         boostAnimator.SetBool("Activated", true);
         Sprite.GetComponent<AnimationTriggerManagment>().Hit();
         
+        // Laser Strong
+        GameObject childLineRenderer = new GameObject();
+        lineRendererToDestroy.Add(childLineRenderer);
+        childLineRenderer.AddComponent<LineRenderer>();
+        childLineRenderer.transform.parent = hit.transform.GetChild(0).transform;
+        childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
+        copyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), m_lineRenderer);
+        Lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),laserMaterial));
+        ShootLaser(NumberOfLaser, rayPower, directorVector, exitPointStrong);
+        NumberOfLaser++;
         
+        //Laser Weak
+        GameObject childLineRendererWeak = new GameObject();
+        lineRendererToDestroy.Add(childLineRendererWeak);
+        childLineRendererWeak.AddComponent<LineRenderer>();
+        childLineRendererWeak.transform.parent = hit.transform.GetChild(1).transform;
+        childLineRendererWeak.transform.position = childLineRendererWeak.transform.parent.position;
+        copyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), m_lineRenderer);
+        
+        // Shot Laser for test need to be replaced with twin system
+        Lasers.Add(new LaserObject(childLineRendererWeak.GetComponent<LineRenderer>(),laserMaterial));
+        ShootLaser(NumberOfLaser, rayPower, directorVector, exitPointWeak);
+        Lasers[NumberOfLaser].setColor(Color.red * 1.5f);
+        NumberOfLaser++;
+        
+        // // Calculate symmetry axis & point
+        // Vector2 strongWeakVector2 = exitPointWeak - exitPointStrong;
+        // Vector2 symmetryAxisPoint = exitPointStrong + strongWeakVector2 / 2;
+        //
+        // // Set Twin
+        // Lasers[NumberOfLaser-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
+
     }
 
     void copyLineRendererSetting(LineRenderer lr1, LineRenderer lr2)

@@ -36,9 +36,9 @@ public class LaserObject
         stepList.Add(stepPosition);
     }
 
-    public void setWeekTwin(Vector2 symetryAxis, Vector2 symetryAxisPoint)
+    public void setWeekTwin(Vector2 symetryAxis, Vector2 symetryAxisPoint, LineRenderer twinLineRenderer)
     {
-        jumeledLaserObject = new LaserObject(lineRenderer.transform.AddComponent<LineRenderer>(), lineRenderer.material);
+        jumeledLaserObject = new LaserObject(twinLineRenderer, lineRenderer.material);
         this.symetryAxis = symetryAxis;
         this.symetryAxisPoint = symetryAxisPoint;
         
@@ -58,8 +58,33 @@ public class LaserObject
     }
     
 
-    public void Draw()
+    public void Draw(bool isTwin = false)
     {
+        DefineColor(isTwin);
+        
+        lineRenderer.positionCount = stepList.Count;
+        
+        int iterator = 0;
+        foreach (Vector2 point in stepList)
+        {
+            //Debug.Log(point);
+            lineRenderer.SetPosition(iterator, point);
+            iterator++;
+        }
+
+        if (jumeledLaserObject != null)
+        {
+            jumeledLaserObject.Draw(true);
+        }
+    }
+
+    void DefineColor(bool isTwin)
+    {
+        if (isTwin)
+        {
+            laserColor *= 1.5f;
+        }
+        
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 1.0f;
         Gradient gradient = new Gradient();
@@ -74,19 +99,5 @@ public class LaserObject
         );
         lineRenderer.colorGradient = gradient;
         
-        lineRenderer.positionCount = stepList.Count;
-        
-        int iterator = 0;
-        foreach (Vector2 point in stepList)
-        {
-            //Debug.Log(point);
-            lineRenderer.SetPosition(iterator, point);
-            iterator++;
-        }
-
-        if (jumeledLaserObject != null)
-        {
-            jumeledLaserObject.Draw();
-        }
     }
 }
