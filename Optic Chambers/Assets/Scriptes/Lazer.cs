@@ -127,6 +127,7 @@ public class Lazer : MonoBehaviour
         childLineRenderer.AddComponent<LineRenderer>();
         childLineRenderer.transform.parent = hit.transform.GetChild(0).transform;
         childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
+        childLineRenderer.layer = 10;
         CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
         _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
         ShootLaser(_numberOfLaser, rayPower/2, directorVectorExit1, exitPoint1);
@@ -138,6 +139,7 @@ public class Lazer : MonoBehaviour
         childLineRenderer2.AddComponent<LineRenderer>();
         childLineRenderer2.transform.parent = hit.transform.GetChild(1).transform;
         childLineRenderer2.transform.position = childLineRenderer2.transform.parent.position;
+        childLineRenderer2.layer = 10;
         CopyLineRendererSetting(childLineRenderer2.GetComponent<LineRenderer>(), mLineRenderer);
         _lasers.Add(new LaserObject(childLineRenderer2.GetComponent<LineRenderer>(), _laserMaterial));
         ShootLaser(_numberOfLaser, rayPower/2, directorVectorExit2, exitPoint2);
@@ -187,6 +189,7 @@ public class Lazer : MonoBehaviour
         childLineRenderer.AddComponent<LineRenderer>();
         childLineRenderer.transform.parent = hit.transform.GetChild(0).transform;
         childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
+        childLineRenderer.layer = 10;
         CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
         _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
         ShootLaser(_numberOfLaser, rayPower, directorVector, exitPointStrong);
@@ -197,6 +200,7 @@ public class Lazer : MonoBehaviour
         _lineRendererToDestroy.Add(childLineRendererWeak);
         childLineRendererWeak.AddComponent<LineRenderer>();
         childLineRendererWeak.transform.parent = hit.transform.GetChild(1).transform;
+        childLineRendererWeak.layer = 10;
         childLineRendererWeak.transform.position = childLineRendererWeak.transform.parent.position;
         CopyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), mLineRenderer, 0.5f);
         
