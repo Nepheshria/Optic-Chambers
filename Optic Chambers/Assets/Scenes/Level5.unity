@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421559958589371610, guid: d663546f945dc93949570e7167d26c8c, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2421559958589371610, guid: d663546f945dc93949570e7167d26c8c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4011,7 +4011,7 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1001 &746405538
+--- !u!1001 &786672395
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -4024,7 +4024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6335599304557416794, guid: 75af20c7e77b57a42bf62b123fe36e30, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6335599304557416794, guid: 75af20c7e77b57a42bf62b123fe36e30, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4981,7 +4981,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6252251298683318843, guid: 734b8b742d9a962369b00e3524fcc060, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6252251298683318843, guid: 734b8b742d9a962369b00e3524fcc060, type: 3}
       propertyPath: m_LocalPosition.x
