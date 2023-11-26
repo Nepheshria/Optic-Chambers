@@ -9,7 +9,6 @@ public class Lazer : MonoBehaviour
     [SerializeField] private float RayDistance = 10;
     [SerializeField] private float ResonatorBoostPower = 10;
     private LayerMask laserLayer;
-    private int stepNumber = 1;
     private int NumberOfLaser = 0;
 
     private List<LaserObject> Lasers;
@@ -175,7 +174,7 @@ public class Lazer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("=======================");
+        // Debug.Log("=======================");
         Lasers = new List<LaserObject>();
         destroyLineRenderer();
         Lasers.Add(new LaserObject(m_lineRenderer, laserMaterial));
@@ -193,7 +192,7 @@ public class Lazer : MonoBehaviour
         int i = 0;
         foreach (LaserObject laser in Lasers)
         {
-            Debug.Log("Laser " + i);
+            // Debug.Log("Laser " + i);
             laser.Draw();
             i++;
         }
