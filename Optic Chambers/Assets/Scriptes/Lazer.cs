@@ -53,7 +53,7 @@ public class Lazer : MonoBehaviour
                         _lasers[laserNumber].addStep(hit.point);
                         break;
                     case "Button":
-                        Debug.Log("Button");
+                        //Debug.Log("Button");
                         _lasers[laserNumber].addStep(hit.point);
                         
                         // Check ButtonColor

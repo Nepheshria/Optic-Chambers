@@ -9,6 +9,7 @@ TagManager:
   - WinTarget
   - ResonatorJumeling
   - SplitEntrace
+  - Button
   layers:
   - Default
   - TransparentFX

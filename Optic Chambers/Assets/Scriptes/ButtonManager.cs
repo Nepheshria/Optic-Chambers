@@ -16,8 +16,9 @@ public class ButtonManager : MonoBehaviour
 
     private bool isActive;
     private bool lastState;
-    
-    
+    private static readonly int Activated = Animator.StringToHash("Activated");
+
+
     public bool isRightColor(LaserObject enteringLaser)
     {
         return enteringLaser.getColor() != buttonColor;
@@ -36,6 +37,7 @@ public class ButtonManager : MonoBehaviour
         if (lastHitTime >= collisionInterval)
         {
             isActive = false;
+            _animator.SetBool(Activated, false);
         }
 
         if (isActive != lastState)
