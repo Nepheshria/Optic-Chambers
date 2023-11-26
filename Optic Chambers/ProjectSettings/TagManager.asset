@@ -10,6 +10,7 @@ TagManager:
   - ResonatorJumeling
   - SplitEntrace
   - Button
+  - ColorChanger
   layers:
   - Default
   - TransparentFX

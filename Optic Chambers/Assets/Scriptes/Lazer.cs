@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -50,6 +51,40 @@ public class Lazer : MonoBehaviour
                     case "WinTarget":
                         Debug.Log("Win");
                         _uiManager.LevelVictory();
+                        _lasers[laserNumber].addStep(hit.point);
+                        break;
+                    case "ColorChanger":
+                        Debug.Log("ColorChanger");
+                        // Laser Exit 1
+                        GameObject childLineRenderer = new GameObject();
+                        _lineRendererToDestroy.Add(childLineRenderer);
+                        childLineRenderer.AddComponent<LineRenderer>();
+                        childLineRenderer.transform.parent = hit.transform;
+                        childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
+                        childLineRenderer.layer = 10;
+                        CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
+                        _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
+
+                        String ColorChangerName = hit.transform.gameObject.name;
+
+                        switch (ColorChangerName)
+                        {
+                            case "Blue":
+                                _lasers[_numberOfLaser].setColor(Color.blue);
+                                break;
+                            case "Red":
+                                _lasers[_numberOfLaser].setColor(Color.red);
+                                break;
+                            case "Green":
+                                _lasers[_numberOfLaser].setColor(Color.green);
+                                break;
+                            default:
+                                _lasers[_numberOfLaser].setColor(Color.red);
+                                break;
+                        }
+                        ShootLaser(_numberOfLaser, rayPower, laserDirectorVector, hit.point+laserDirectorVector.normalized*0.01f);
+                        _numberOfLaser++;
+                        
                         _lasers[laserNumber].addStep(hit.point);
                         break;
                     case "Button":
