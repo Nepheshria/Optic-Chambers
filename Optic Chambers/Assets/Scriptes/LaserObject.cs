@@ -19,11 +19,14 @@ public class LaserObject
     private LineRenderer lineRenderer;
     private Color laserColor = Color.red;
 
-    public LaserObject(LineRenderer lineRenderer, Material laserMaterial)
+    public LaserObject(LineRenderer lineRenderer, Material laserMaterial, bool isTwin = false)
     {
         this.lineRenderer = lineRenderer;
         lineRenderer.material = laserMaterial;
-        addStep(lineRenderer.transform.position);
+        if (!isTwin)
+        {
+            addStep(lineRenderer.transform.position);
+        }
     }
 
     public void setColor(Color color)
@@ -36,25 +39,53 @@ public class LaserObject
         stepList.Add(stepPosition);
     }
 
-    public void setWeekTwin(Vector2 symetryAxis, Vector2 symetryAxisPoint, LineRenderer twinLineRenderer)
+    public void setWeekTwin(Vector2 symetryAxisF, Vector2 symetryAxisPointF, LineRenderer twinLineRenderer)
     {
-        jumeledLaserObject = new LaserObject(twinLineRenderer, lineRenderer.material);
-        this.symetryAxis = symetryAxis;
-        this.symetryAxisPoint = symetryAxisPoint;
-        
+        jumeledLaserObject = new LaserObject(twinLineRenderer, lineRenderer.material, true);
+        symetryAxis = -symetryAxisF.normalized;
+        symetryAxisPoint = symetryAxisPointF;
+        symetryAxis = symetryAxis.Perpendicular2();
         // Set point for Twin
-        Vector2 normalSymetryAxis = this.symetryAxis.Perpendicular1();
-        
-        foreach (Vector2 point in stepList)
+        int i = 1;
+        foreach (Vector2 strongPoint in stepList)
         {
-            Vector2 symetricPoint;
-
-            symetricPoint = point + 2 * normalSymetryAxis;
+            float weakPointX = strongPoint.x; 
             
-            jumeledLaserObject.addStep(symetricPoint);
-            Debug.DrawLine(point, symetricPoint, Color.red);
+            float ySymmetryAxis = symetryAxisPointF.y;
+            
+            float distanceAxisStrong = strongPoint.y - ySymmetryAxis;
+            
+            float weakPointY = ySymmetryAxis-distanceAxisStrong;
+            
+            Vector2 weakPoint = new Vector2(weakPointX, weakPointY);
+
+            if (i > 1)
+            {
+                jumeledLaserObject.addStep(Lazer.CheckColision(jumeledLaserObject.stepList[jumeledLaserObject.stepList.Count-1], weakPoint));
+                if (jumeledLaserObject.stepList[jumeledLaserObject.stepList.Count-1] != weakPoint)
+                {
+                    break;
+                }
+            }
+            else
+            {
+                jumeledLaserObject.addStep(weakPoint);
+            }
+            i++;
+            
+            // Debug Grave
+            // Debug.DrawLine(strongPoint, weakPoint, Color.green);
+            // Debug.DrawLine(symetryAxisPoint, weakPoint, Color.cyan);
+            // Debug.DrawLine(symetryAxisPoint, strongPoint, Color.magenta);
         }
         
+    }
+    
+    public static Vector2 rotate(Vector2 v, float delta) {
+        return new Vector2(
+            v.x * Mathf.Cos(delta) - v.y * Mathf.Sin(delta),
+            v.x * Mathf.Sin(delta) + v.y * Mathf.Cos(delta)
+        );
     }
     
 

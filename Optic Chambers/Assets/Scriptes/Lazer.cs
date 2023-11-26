@@ -173,28 +173,28 @@ public class Lazer : MonoBehaviour
         childLineRendererWeak.AddComponent<LineRenderer>();
         childLineRendererWeak.transform.parent = hit.transform.GetChild(1).transform;
         childLineRendererWeak.transform.position = childLineRendererWeak.transform.parent.position;
-        copyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), m_lineRenderer);
+        copyLineRendererSetting(childLineRendererWeak.GetComponent<LineRenderer>(), m_lineRenderer, 0.5f);
         
         // Shot Laser for test need to be replaced with twin system
-        Lasers.Add(new LaserObject(childLineRendererWeak.GetComponent<LineRenderer>(),laserMaterial));
-        ShootLaser(NumberOfLaser, rayPower, directorVector, exitPointWeak);
-        Lasers[NumberOfLaser].setColor(Color.red * 1.5f);
-        NumberOfLaser++;
+        // Lasers.Add(new LaserObject(childLineRendererWeak.GetComponent<LineRenderer>(),laserMaterial));
+        // ShootLaser(NumberOfLaser, rayPower, directorVector, exitPointWeak);
+        // Lasers[NumberOfLaser].setColor(Color.red * 1.5f);
+        // NumberOfLaser++;
         
         // // Calculate symmetry axis & point
-        // Vector2 strongWeakVector2 = exitPointWeak - exitPointStrong;
-        // Vector2 symmetryAxisPoint = exitPointStrong + strongWeakVector2 / 2;
-        //
-        // // Set Twin
-        // Lasers[NumberOfLaser-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
+        Vector2 strongWeakVector2 = exitPointWeak - exitPointStrong;
+        Vector2 symmetryAxisPoint = exitPointStrong + strongWeakVector2 / 2;
+        
+        // Set Twin
+        Lasers[NumberOfLaser-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
 
     }
 
-    void copyLineRendererSetting(LineRenderer lr1, LineRenderer lr2)
+    void copyLineRendererSetting(LineRenderer lr1, LineRenderer lr2, float mult = 1)
     {
         lr1.widthCurve = lr2.widthCurve;
-        lr1.startWidth = lr2.startWidth;
-        lr1.endWidth = lr2.endWidth;
+        lr1.startWidth = lr2.startWidth * mult;
+        lr1.endWidth = lr2.endWidth * mult;
     }
     
     
@@ -253,5 +253,23 @@ public class Lazer : MonoBehaviour
             }
         }
         
+    }
+
+    public static Vector2 CheckColision(Vector2 startPoint, Vector2 endPoint)
+    {
+        Vector2 laserDirectorVector = endPoint - startPoint;
+        RaycastHit2D hit = Physics2D.Raycast(startPoint, laserDirectorVector.normalized, laserDirectorVector.magnitude);
+        if (hit)
+        {
+            switch (hit.transform.tag)
+            {
+                case "WinTarget":
+                    Debug.Log("Win");
+                    return hit.point;
+                default:
+                    return hit.point;
+            }
+        }
+        return endPoint;
     }
 }

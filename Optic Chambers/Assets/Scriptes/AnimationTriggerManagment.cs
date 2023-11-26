@@ -7,7 +7,7 @@ public class AnimationTriggerManagment : MonoBehaviour
 {
     [SerializeField]private Animator _animator;
     private float lastHitTime;
-    const float collisionInterval = 50f;
+    const float collisionInterval = 5f;
 
     public void Update()
     {
