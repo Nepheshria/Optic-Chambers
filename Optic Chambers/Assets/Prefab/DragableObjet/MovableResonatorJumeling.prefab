@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2922013292939844507}
   - component: {fileID: 2922013292939844506}
   - component: {fileID: 2922013292939844505}
-  - component: {fileID: 1189457045970012036}
+  - component: {fileID: 6051938083656241694}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c2504040acd19b1ba4aaa22267300c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 1189457045970012036}
---- !u!95 &1189457045970012036
+  _animator: {fileID: 6051938083656241694}
+--- !u!95 &6051938083656241694
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
