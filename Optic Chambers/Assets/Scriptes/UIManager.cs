@@ -79,15 +79,15 @@ public class UIManager : MonoBehaviour
     }
     public void NextLevel()
     {
-        
-        winscreen.SetActive(false);
+        Debug.Log("Test");
         scene = SceneManager.GetActiveScene();
         SceneManager.LoadSceneAsync($"level{scene.buildIndex + 1}");
+        winscreen.SetActive(false);
     }
     
     public void BackMainScreen()
     {
-
+        
         winscreen.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
         UIManager.Instance.PlaySfx("Menu_back");
