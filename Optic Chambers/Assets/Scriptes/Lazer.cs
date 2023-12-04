@@ -50,9 +50,12 @@ public class Lazer : MonoBehaviour
                         ComputeResonatorBoost(laserNumber, laserDirectorVector, hit, rayPower-hit.distance);
                         break;
                     case "WinTarget":
-                        Debug.Log("Win");
-                        levelwin = 1;
-                        _uiManager.LevelVictory();
+                        if (levelwin == 0)
+                        {       
+                            Debug.Log("Win");
+                            levelwin = 1;
+                            _uiManager.LevelVictory();
+                        }
                         _lasers[laserNumber].addStep(hit.point);
                         break;
                     case "ColorChanger":
@@ -290,10 +293,8 @@ public class Lazer : MonoBehaviour
         var position = laserFirePoint.position;
         _lasers[0].addStep(position);
         _numberOfLaser = 1;
-        if (levelwin == 0)
-        {
-            ShootLaser(0, rayDistance, laserFirePoint.transform.right, position);
-        }
+        ShootLaser(0, rayDistance, laserFirePoint.transform.right, position);
+        
         //Debug.Log("Laser Number " + NumberOfLaser);
         //Debug.Log("Laser In List " + Lasers.Count);
         Draw2DRay();
