@@ -20,6 +20,7 @@ public class Lazer : MonoBehaviour
     private static UIManager _uiManager;
     private static readonly int Activated = Animator.StringToHash("Activated");
 
+    private static int levelwin = 0;
     private void Awake()
     {
         mLineRenderer.SetPosition(0, laserFirePoint.position);
@@ -50,6 +51,7 @@ public class Lazer : MonoBehaviour
                         break;
                     case "WinTarget":
                         Debug.Log("Win");
+                        levelwin = 1;
                         _uiManager.LevelVictory();
                         _lasers[laserNumber].addStep(hit.point);
                         break;
@@ -288,7 +290,10 @@ public class Lazer : MonoBehaviour
         var position = laserFirePoint.position;
         _lasers[0].addStep(position);
         _numberOfLaser = 1;
-        ShootLaser(0, rayDistance, laserFirePoint.transform.right, position);
+        if (levelwin == 0)
+        {
+            ShootLaser(0, rayDistance, laserFirePoint.transform.right, position);
+        }
         //Debug.Log("Laser Number " + NumberOfLaser);
         //Debug.Log("Laser In List " + Lasers.Count);
         Draw2DRay();
@@ -325,6 +330,7 @@ public class Lazer : MonoBehaviour
             {
                 case "WinTarget":
                     Debug.Log("Win");
+                    levelwin = 1;
                     _uiManager.LevelVictory();
                     return hit.point;
                 default:
