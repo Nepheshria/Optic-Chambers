@@ -22,6 +22,7 @@ public class Lazer : MonoBehaviour
     private static UIManager _uiManager;
     private static readonly int Activated = Animator.StringToHash("Activated");
 
+    private static int levelwin = 0;
     private void Awake()
     {
         mLineRenderer.SetPosition(0, laserFirePoint.position);
@@ -51,8 +52,12 @@ public class Lazer : MonoBehaviour
                         ComputeResonatorBoost(laserNumber, laserDirectorVector, hit, rayPower-hit.distance, ShootedlaserColor);
                         break;
                     case "WinTarget":
-                        // Debug.Log("Win");
-                        _uiManager.LevelVictory();
+                        if (levelwin == 0)
+                        {       
+                            Debug.Log("Win");
+                            levelwin = 1;
+                            _uiManager.LevelVictory();
+                        }
                         _lasers[laserNumber].addStep(hit.point);
                         break;
                     case "ColorChanger":
@@ -368,6 +373,7 @@ public class Lazer : MonoBehaviour
             {
                 case "WinTarget":
                     Debug.Log("Win");
+                    levelwin = 1;
                     _uiManager.LevelVictory();
                     return hit.point;
                 default:
