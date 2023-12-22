@@ -19,6 +19,11 @@ public class LaserObject
     private LineRenderer lineRenderer;
     private Color laserColor = Color.red;
 
+    public List<Vector2> getSteps()
+    {
+        return this.stepList;
+    }
+    
     public LaserObject(LineRenderer lineRenderer, Material laserMaterial, bool isTwin = false)
     {
         this.lineRenderer = lineRenderer;
