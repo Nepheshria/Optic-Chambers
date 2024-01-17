@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class MainMenu : MonoBehaviour
 {
     private void Start()
     {
-        var directories = Directory.GetDirectories("Assets\Scenes");
-        Debug.Log($"{directories}");
-        
+      UIManager.Instance.Loading.SetActive(true);
+      UIManager.Instance.MainMenu.SetActive(false);
+      UIManager.Instance.MenuBackground.SetActive(false);
+      
+      System.Threading.Thread.Sleep(3000);
+
+      UIManager.Instance.MainMenu.SetActive(true);
+      UIManager.Instance.MenuBackground.SetActive(true);
+      UIManager.Instance.Loading.SetActive(false);
     }
+
+
+
     public void PlayGame(int level)
     {
         SceneManager.LoadSceneAsync($"Level{level}");
