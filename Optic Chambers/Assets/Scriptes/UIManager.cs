@@ -105,5 +105,4 @@ public class UIManager : MonoBehaviour
         UIManager.Instance.musicSource.Stop();
         UIManager.Instance.PlayMusic("Menu");
     }
-
 }

@@ -4,7 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
-
+    private void Start()
+    {
+        var directories = Directory.GetDirectories("Assets\Scenes");
+        Debug.Log($"{directories}");
+        
+    }
     public void PlayGame(int level)
     {
         SceneManager.LoadSceneAsync($"Level{level}");
