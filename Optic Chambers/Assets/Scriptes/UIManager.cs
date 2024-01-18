@@ -11,7 +11,10 @@ public class UIManager : MonoBehaviour
     public AudioSource musicSource, sfxSource;
     public GameObject winscreen;
     public GameObject MainMenu;
+    public GameObject MenuBackground;
+    public GameObject Loading;
     public GameObject LevelsMenu;
+
     Scene scene;
     void Awake()
     {
@@ -105,5 +108,4 @@ public class UIManager : MonoBehaviour
         UIManager.Instance.musicSource.Stop();
         UIManager.Instance.PlayMusic("Menu");
     }
-
 }
