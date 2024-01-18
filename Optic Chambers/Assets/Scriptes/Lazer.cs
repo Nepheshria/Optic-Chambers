@@ -22,7 +22,7 @@ public class Lazer : MonoBehaviour
     private static UIManager _uiManager;
     private static readonly int Activated = Animator.StringToHash("Activated");
 
-    private static int levelwin = 0;
+    private static int levelwin;
     private void Awake()
     {
         mLineRenderer.SetPosition(0, laserFirePoint.position);
@@ -34,6 +34,7 @@ public class Lazer : MonoBehaviour
     private void Start()
     {
         _uiManager = UIManager.Instance;
+        levelwin = 0;
     }
 
     void ShootLaser(int laserNumber, float rayPower, Vector2 laserDirectorVector, Vector2 startPoint, Color ShootedlaserColor)

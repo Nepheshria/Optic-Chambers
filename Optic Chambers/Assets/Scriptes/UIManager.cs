@@ -28,10 +28,55 @@ public class UIManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
+    
     private void Start()
     {
         PlayMusic("Menu");
+    }
+    public static string ConvertIntToRoman(int num)
+    {  
+        
+        string rep = "";
+        while(num != 0)
+        {
+        if (num >= 40)    // 40 - xl
+            {
+            rep += "xl";           
+            num -= 40;
+            }
+
+            else if (num >= 10)    // 10 - x
+            {
+            rep += "x";
+            num -= 10;           
+            }
+
+            else if (num >= 9)     // 9 - ix
+            {
+            rep += "ix";
+            num -= 9;                         
+            }
+
+            else if (num >= 5)     // 5 - v
+            {
+            rep += "v";
+            num -= 5;                                     
+            }
+
+            else if (num >= 4)     // 4 - iv
+            {
+            rep += "iv";
+            num -= 4;                                                            
+            }
+
+            else if (num >= 1)     // 1 - i
+            {
+            rep += "i";
+            num -= 1;                                                                                   
+            }
+        }
+            Debug.Log(rep);
+            return rep;
     }
     public void PlayMusic(string name)
     {
@@ -79,6 +124,7 @@ public class UIManager : MonoBehaviour
     public void LevelVictory()
     {   
         winscreen.SetActive(true);
+
     }
     public void NextLevel()
     {
@@ -97,6 +143,7 @@ public class UIManager : MonoBehaviour
         UIManager.Instance.musicSource.Stop();
         UIManager.Instance.PlayMusic("Menu");
     }
+
     public void BackLevelScreen()
     {
 
