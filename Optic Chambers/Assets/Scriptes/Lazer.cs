@@ -70,6 +70,7 @@ public class Lazer : MonoBehaviour
                         }
                         _lasers[laserNumber].addStep(hit.point);
                         break;
+                    
                     case "ColorChanger":
                         // Debug.Log("ColorChanger");
                         // Laser Exit 1
@@ -110,6 +111,7 @@ public class Lazer : MonoBehaviour
                         _lasers[laserNumber].addStep(hit.point);
                         
                         break;
+                    
                     case "Button":
                         // Debug.Log("Button");
                         _lasers[laserNumber].addStep(hit.point);
@@ -127,14 +129,17 @@ public class Lazer : MonoBehaviour
                         
                         
                         break;
+                    
                     case "ResonatorJumeling":
                         // Debug.Log("Jumeling");
-                        _lasers[laserNumber-1].addStep(hit.point);
+                        _lasers[_lasers.Count-1].addStep(hit.point);
                         ComputeResonatorTwin(hit, rayPower-hit.distance, ShootedlaserColor);
                         break;
+                    
+                    
                     case "SplitEntrace":
                         // Debug.Log("Split");
-                        _lasers[laserNumber-1].addStep(hit.point);
+                        _lasers[_lasers.Count-1].addStep(hit.point);
                         ComputeSplit(hit, rayPower-hit.distance, ShootedlaserColor);
                         //DebugLaserSteps(_lasers[laserNumber], "Split Entrance");
                         break;
