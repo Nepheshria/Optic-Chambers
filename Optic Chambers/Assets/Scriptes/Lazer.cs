@@ -23,6 +23,9 @@ public class Lazer : MonoBehaviour
     private static readonly int Activated = Animator.StringToHash("Activated");
 
     private static int levelwin;
+
+    private static int waitendlevel;
+    private static int frameneedtowin;
     private void Awake()
     {
         mLineRenderer.SetPosition(0, laserFirePoint.position);
@@ -35,6 +38,8 @@ public class Lazer : MonoBehaviour
     {
         _uiManager = UIManager.Instance;
         levelwin = 0;
+        waitendlevel = 0;
+        frameneedtowin = 500;
     }
 
     void ShootLaser(int laserNumber, float rayPower, Vector2 laserDirectorVector, Vector2 startPoint, Color ShootedlaserColor)
@@ -55,9 +60,13 @@ public class Lazer : MonoBehaviour
                     case "WinTarget":
                         if (levelwin == 0)
                         {       
-                            Debug.Log("Win");
-                            levelwin = 1;
-                            _uiManager.LevelVictory();
+                            waitendlevel = waitendlevel + 1;
+                            if (waitendlevel > frameneedtowin)
+                            {
+                                Debug.Log("Win");
+                                levelwin = 1;
+                                _uiManager.LevelVictory();
+                            }
                         }
                         _lasers[laserNumber].addStep(hit.point);
                         break;
@@ -373,10 +382,15 @@ public class Lazer : MonoBehaviour
             switch (hit.transform.tag)
             {
                 case "WinTarget":
-                    Debug.Log("Win");
-                    levelwin = 1;
-                    _uiManager.LevelVictory();
-                    return hit.point;
+                    waitendlevel = waitendlevel + 1;
+                    if (waitendlevel > frameneedtowin)
+                    {
+                        Debug.Log("Win");
+                        levelwin = 1;
+                        _uiManager.LevelVictory();
+                    }
+
+                        return hit.point;
                 default:
                     return hit.point;
             }
