@@ -7,11 +7,10 @@ public class MainMenu : MonoBehaviour
 {
     private void Start()
     {
-      UIManager.Instance.Loading.SetActive(true);
-      UIManager.Instance.MainMenu.SetActive(false);
-      UIManager.Instance.MenuBackground.SetActive(false);
-      
-      System.Threading.Thread.Sleep(3000);
+      // UIManager.Instance.Loading.SetActive(true);
+      // UIManager.Instance.MainMenu.SetActive(false);
+      // UIManager.Instance.MenuBackground.SetActive(false);
+
 
       UIManager.Instance.MainMenu.SetActive(true);
       UIManager.Instance.MenuBackground.SetActive(true);

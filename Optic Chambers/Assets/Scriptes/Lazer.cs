@@ -22,7 +22,10 @@ public class Lazer : MonoBehaviour
     private static UIManager _uiManager;
     private static readonly int Activated = Animator.StringToHash("Activated");
 
-    private static int levelwin = 0;
+    private static int levelwin;
+
+    private static int waitendlevel;
+    private static int frameneedtowin;
     private void Awake()
     {
         mLineRenderer.SetPosition(0, laserFirePoint.position);
@@ -34,6 +37,9 @@ public class Lazer : MonoBehaviour
     private void Start()
     {
         _uiManager = UIManager.Instance;
+        levelwin = 0;
+        waitendlevel = 0;
+        frameneedtowin = 500;
     }
 
     void ShootLaser(int laserNumber, float rayPower, Vector2 laserDirectorVector, Vector2 startPoint, Color ShootedlaserColor)
@@ -44,8 +50,9 @@ public class Lazer : MonoBehaviour
                 switch (hit.transform.tag)
                 {
                     case "Mirror":
+                        
                         // Debug.Log("mirror");
-                        ComputeMirror(laserNumber, laserDirectorVector, hit, rayPower-hit.distance, ShootedlaserColor);
+                        ComputeMirror(laserDirectorVector, hit, rayPower-hit.distance, ShootedlaserColor);
                         break;
                     case "ResonatorBoost":
                         // Debug.Log("resonatorBoost");
@@ -54,13 +61,21 @@ public class Lazer : MonoBehaviour
                     case "WinTarget":
                         if (levelwin == 0)
                         {       
-                            Debug.Log("Win");
-                            levelwin = 1;
-                            _uiManager.LevelVictory();
+                            waitendlevel = waitendlevel + 1;
+                            if (waitendlevel > frameneedtowin)
+                            {
+                                Debug.Log("Win");
+                                levelwin = 1;
+                                _uiManager.LevelVictory();
+                            }
                         }
                         _lasers[laserNumber].addStep(hit.point);
                         break;
+                    
                     case "ColorChanger":
+                        
+                        _lasers[_lasers.Count-1].addStep(hit.point);
+                        
                         // Debug.Log("ColorChanger");
                         // Laser Exit 1
                         GameObject childLineRenderer = new GameObject();
@@ -70,39 +85,42 @@ public class Lazer : MonoBehaviour
                         childLineRenderer.transform.position = childLineRenderer.transform.parent.position;
                         childLineRenderer.layer = 10;
                         CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
-                        _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
+                        LaserObject newLaser = new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),
+                            _laserMaterial);
+                        _lasers.Add(newLaser);
 
                         String ColorChangerName = hit.transform.gameObject.name;
                         Color changedColor;
                         switch (ColorChangerName)
                         {
                             case "Blue":
+                                //Debug.Log("B");
                                 changedColor = Color.blue;
-                                _lasers[_numberOfLaser].setColor(Color.blue);
+                                newLaser.setColor(Color.blue);
                                 break;
                             case "Red":
+                                //Debug.Log("R");
                                 changedColor = Color.red;
-                                _lasers[_numberOfLaser].setColor(Color.red);
+                                newLaser.setColor(Color.red);
                                 break;
                             case "Green":
+                                //Debug.Log("G");
                                 changedColor = Color.green;
-                                _lasers[_numberOfLaser].setColor(Color.green);
+                                newLaser.setColor(Color.green);
                                 break;
                             default:
                                 changedColor = Color.white;
-                                _lasers[_numberOfLaser].setColor(Color.white);
+                                newLaser.setColor(Color.white);
                                 break;
                         }
                         _numberOfLaser++;
                         ShootLaser(_numberOfLaser, rayPower, laserDirectorVector, hit.point+laserDirectorVector.normalized*0.01f, changedColor);
                         
-                        
-                        _lasers[laserNumber].addStep(hit.point);
-                        
                         break;
+                    
                     case "Button":
                         // Debug.Log("Button");
-                        _lasers[laserNumber].addStep(hit.point);
+                        _lasers[_lasers.Count-1].addStep(hit.point);
                         
                         // Check ButtonColor
                         ButtonManager button = hit.transform.GetComponent<ButtonManager>();
@@ -117,19 +135,22 @@ public class Lazer : MonoBehaviour
                         
                         
                         break;
+                    
                     case "ResonatorJumeling":
                         // Debug.Log("Jumeling");
-                        _lasers[laserNumber-1].addStep(hit.point);
+                        _lasers[_lasers.Count-1].addStep(hit.point);
                         ComputeResonatorTwin(hit, rayPower-hit.distance, ShootedlaserColor);
                         break;
+                    
+                    
                     case "SplitEntrace":
                         // Debug.Log("Split");
-                        _lasers[laserNumber-1].addStep(hit.point);
+                        _lasers[_lasers.Count-1].addStep(hit.point);
                         ComputeSplit(hit, rayPower-hit.distance, ShootedlaserColor);
                         //DebugLaserSteps(_lasers[laserNumber], "Split Entrance");
                         break;
                     default:
-                        Debug.Log(laserNumber + " " + _lasers.Count);
+                        //Debug.Log(laserNumber + " " + _lasers.Count);
                         _lasers[_lasers.Count-1].addStep(hit.point);
                         break;
                 }
@@ -159,7 +180,7 @@ public class Lazer : MonoBehaviour
         Debug.Log("============================================================");
     }
     
-    void ComputeMirror(int laserNumber, Vector2 inputLaser, RaycastHit2D hit, float rayPower, Color arrivingLaserColor)
+    void ComputeMirror(Vector2 inputLaser, RaycastHit2D hit, float rayPower, Color arrivingLaserColor)
     {
         // Compute new laser angle
         Vector2 laserDirectorVector = Vector2.Reflect(inputLaser, hit.normal);
@@ -169,11 +190,11 @@ public class Lazer : MonoBehaviour
         Vector2 newStartingPoint = hit.point + laserDirectorVector.normalized*0.1f;
         
         // Add step to list
-        _lasers[laserNumber].addStep(hit.point);
+        _lasers[_lasers.Count-1].addStep(hit.point);
         
         // Shoot new laser
         //Debug.Log("mirror - "+laserDirectorVector);
-        ShootLaser(laserNumber, rayPower, laserDirectorVector, newStartingPoint, arrivingLaserColor);
+        ShootLaser(_lasers.Count-1, rayPower, laserDirectorVector, newStartingPoint, arrivingLaserColor);
     }
     
     void ComputeSplit(RaycastHit2D hit, float rayPower, Color arrivingLaserColor)
@@ -232,7 +253,7 @@ public class Lazer : MonoBehaviour
         Vector2 newStartingPoint = hit.point + entry.normalized;
         
         // Add step to list
-        _lasers[laserNumber].addStep(hit.point);
+        _lasers[_lasers.Count-1].addStep(hit.point);
         
         // Animation
         Animator boostAnimator = hit.transform.GetComponent<Animator>();
@@ -270,7 +291,7 @@ public class Lazer : MonoBehaviour
         childLineRenderer.layer = 10;
         CopyLineRendererSetting(childLineRenderer.GetComponent<LineRenderer>(), mLineRenderer);
         _lasers.Add(new LaserObject(childLineRenderer.GetComponent<LineRenderer>(),_laserMaterial));
-        _lasers[_numberOfLaser].setColor(arrivingLaserColor);
+        _lasers[_lasers.Count-1].setColor(arrivingLaserColor);
         ShootLaser(_numberOfLaser, rayPower, directorVector, exitPointStrong, arrivingLaserColor); 
         Debug.Log(1);
         _numberOfLaser++;
@@ -291,7 +312,7 @@ public class Lazer : MonoBehaviour
         
         // Set Twin
         Debug.Log(2);
-        _lasers[_numberOfLaser-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
+        _lasers[_lasers.Count-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
         
     }
 
@@ -372,10 +393,15 @@ public class Lazer : MonoBehaviour
             switch (hit.transform.tag)
             {
                 case "WinTarget":
-                    Debug.Log("Win");
-                    levelwin = 1;
-                    _uiManager.LevelVictory();
-                    return hit.point;
+                    waitendlevel = waitendlevel + 1;
+                    if (waitendlevel > frameneedtowin)
+                    {
+                        Debug.Log("Win");
+                        levelwin = 1;
+                        _uiManager.LevelVictory();
+                    }
+
+                        return hit.point;
                 default:
                     return hit.point;
             }
