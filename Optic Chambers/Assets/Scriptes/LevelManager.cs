@@ -27,11 +27,11 @@ public class LevelManager : MonoBehaviour
 
     public void SavePrefs()
     {
-    PlayerPrefs.SetInt("leveli", 0); 
+    PlayerPrefs.SetInt("leveli", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelii", 0); 
+    PlayerPrefs.SetInt("levelii", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("leveliii", 0); 
+    PlayerPrefs.SetInt("leveliii", 1); 
     PlayerPrefs.Save();
     PlayerPrefs.SetInt("leveliv", 0); 
     PlayerPrefs.Save();
@@ -51,17 +51,17 @@ public class LevelManager : MonoBehaviour
     PlayerPrefs.Save();
     PlayerPrefs.SetInt("levelxii", 0); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelxiii", 0); 
+    PlayerPrefs.SetInt("levelxiii", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelxiv", 0); 
+    PlayerPrefs.SetInt("levelxiv", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelxv", 0); 
+    PlayerPrefs.SetInt("levelxv", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelxvi", 0); 
+    PlayerPrefs.SetInt("levelxvi", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelxvii", 0); 
+    PlayerPrefs.SetInt("levelxvii", 1); 
     PlayerPrefs.Save();
-    PlayerPrefs.SetInt("levelxviii", 0); 
+    PlayerPrefs.SetInt("levelxviii", 1); 
     PlayerPrefs.Save();
     }
     private void Start()
