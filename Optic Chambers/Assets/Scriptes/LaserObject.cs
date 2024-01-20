@@ -54,7 +54,7 @@ public class LaserObject
         jumeledLaserObject = new LaserObject(twinLineRenderer, lineRenderer.material, true);
         symetryAxis = -symetryAxisF.normalized;
         symetryAxisPoint = symetryAxisPointF;
-        symetryAxis = symetryAxis.Perpendicular2();
+        symetryAxis = new Vector2 (-symetryAxis.y, symetryAxis.x);
         // Set point for Twin
         int i = 1;
         foreach (Vector2 strongPoint in stepList)

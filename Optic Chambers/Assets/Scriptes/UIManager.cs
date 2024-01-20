@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
     public GameObject winscreen;
+    public GameObject MainMenu;
+    public GameObject MenuBackground;
+    public GameObject Loading;
+    public GameObject LevelsMenu;
 
     Scene scene;
     void Awake()
@@ -126,7 +130,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Test");
         scene = SceneManager.GetActiveScene();
-        SceneManager.LoadSceneAsync($"level{scene.buildIndex + 1}");
+        SceneManager.LoadSceneAsync((scene.buildIndex + 1));
         winscreen.SetActive(false);
     }
     

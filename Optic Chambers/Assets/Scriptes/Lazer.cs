@@ -39,7 +39,7 @@ public class Lazer : MonoBehaviour
         _uiManager = UIManager.Instance;
         levelwin = 0;
         waitendlevel = 0;
-        frameneedtowin = 500;
+        frameneedtowin = 50;
     }
 
     void ShootLaser(int laserNumber, float rayPower, Vector2 laserDirectorVector, Vector2 startPoint, Color ShootedlaserColor)
@@ -315,7 +315,7 @@ public class Lazer : MonoBehaviour
         
         // Set Twin
         Debug.Log(2);
-        _lasers[_lasers.Count-1].setWeekTwin(strongWeakVector2.Perpendicular1(), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
+        _lasers[_lasers.Count-1].setWeekTwin(new Vector2 (strongWeakVector2.y, -strongWeakVector2.x), symmetryAxisPoint, childLineRendererWeak.GetComponent<LineRenderer>());
         
     }
 
