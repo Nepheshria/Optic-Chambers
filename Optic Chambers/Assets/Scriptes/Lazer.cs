@@ -60,8 +60,11 @@ public class Lazer : MonoBehaviour
                         break;
                     case "WinTarget":
                         if (levelwin == 0)
-                        {       
-                            waitendlevel = waitendlevel + 1;
+                        {   
+                            hit.transform.parent.GetChild(0).GetComponent<Animator>().SetTrigger("Hit");
+                            hit.transform.parent.GetChild(0).GetComponent<Animator>().SetBool("Contact", true);
+                            hit.transform.parent.GetChild(0).GetComponent<TimerAnimator>().timer = 0;                    
+                            waitendlevel += 1;
                             if (waitendlevel > frameneedtowin)
                             {
                                 Debug.Log("Win");
@@ -69,7 +72,7 @@ public class Lazer : MonoBehaviour
                                 _uiManager.LevelVictory();
                             }
                         }
-                        _lasers[laserNumber].addStep(hit.point);
+                        _lasers[_lasers.Count-1].addStep(hit.point);
                         break;
                     
                     case "ColorChanger":
