@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame(int level)
     {
-        SceneManager.LoadSceneAsync($"Level{level}");
+        SceneManager.LoadSceneAsync(level);
         UIManager.Instance.musicSource.Stop();
         UIManager.Instance.PlayMusic("Level");
     }
