@@ -50,7 +50,7 @@ Voici les éléments avec lesquels vous pouvez interagir :
 
 |         Miroir Fixe          |               Miroir Amovible                |
 | :--------------------------: | :------------------------------------------: |
-| ![Miroir Fixe](Mirror_f.png) | ![Miroir Amovible](Screenshots/Mirror_m.png) |
+| ![Miroir Fixe](Screenshots/Mirror_f.png) | ![Miroir Amovible](Screenshots/Mirror_m.png) |
 
 - **Split** : Réfractez la lumière pour diviser le faisceau en deux.
 
