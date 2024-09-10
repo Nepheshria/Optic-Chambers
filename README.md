@@ -10,7 +10,7 @@
 ---
 
 # Optic Chambers - Puzzle Game
-![[MainMenue.png]]
+![[Screenshots/MainMenue.png]]
 Bienvenue dans **Optic Chambers**, un puzzle game où vous devrez résoudre des énigmes en manipulant des lasers et des miroirs, et d'autres élément d'optique. Ce projet a été développé dans le cadre de la **Scientific Game Jam 2023**, un événement où les participants créent des jeux autour de thèmes scientifiques avec des doctorants pour vulgariser leurs recherches. 
 
 ## Table des matières
@@ -38,31 +38,31 @@ Dans **Optic Chambers**, vous devrez guider un faisceau laser en utilisant diver
 Voici les éléments avec lesquelles vous pouvez interagir :
 
 - **Laser** : Déplacez et faites pivoter des miroirs pour réfléchir le laser.
-![[Lazer.png]]
+![[Screenshots/Lazer.png]]
 - **Récepteur** : Cible du jeux activé pour gagner, certains boutons ne peuvent être activer seulement par des laser de certaines couleurs.
 
-| Cible Activée      | Cible Désactivée    |
-| ------------------ | ------------------- |
-| ![[Target_ON.png]] | ![[Target_OFF.png]] |
+| Cible Activée                  | Cible Désactivée |
+| ------------------------------ | ---------------- |
+| ![[Screenshots/Target_ON.png]] | ![[Split.png]]   |
 - **Miroirs** : Déplacez et faites pivoter des miroirs pour réfléchir le laser. Il existe en deux version, une fixe et l'autre amovible.
 
-|    Miroir Fixe     |  Miroir Amovible  |
-| :----------------: | :---------------: |
-| ![[Mirrror_f.png]] | ![[Mirror_m.png]] |
+|          Miroir Fixe           |        Miroir Amovible        |
+| :----------------------------: | :---------------------------: |
+| ![[Screenshots/Mirrror_f.png]] | ![[Screenshots/Mirror_m.png]] |
 - **Split** : Réfractez la lumière pour diviser le faisceaux en deux.
-![[Split.png]]
+![[Screenshots/Split.png]]
 - **Quantic Split** : Utiliser une chambre de résonance pour crée des faisceaux jumelée. Les faisceaux jumelée sont composer d'un jumeau fort et d'un jumeau faible. Toute les action effectuer sur le jumeau fort sont répertorier en symétrie sur le jumeau faible.
 
-| Quantic Split Off          | Quantic Split On          |
-| -------------------------- | ------------------------- |
-| ![[Quantic_Split_OFF.png]] | ![[Quantic_Split_ON.png]] |
+| Quantic Split Off                      | Quantic Split On                      |
+| -------------------------------------- | ------------------------------------- |
+| ![[Screenshots/Quantic_Split_OFF.png]] | ![[Screenshots/Quantic_Split_ON.png]] |
 - - **Portes et boutons** : Activer les bouton pour ouvrir la ou les portes associer, certains boutons ne peuvent être activer seulement par des laser de certaines couleurs.
 
-| Porte Ouverte      | Porte Fermée         |
-| ------------------ | -------------------- |
-| ![[Door_open.png]] | ![[Door_Closed.png]] |
+| Porte Ouverte                  | Porte Fermée                     |
+| ------------------------------ | -------------------------------- |
+| ![[Screenshots/Door_open.png]] | ![[Screenshots/Door_Closed.png]] |
 - **Filtres** : Modifiez les couleurs des lasers pour correspondre aux objectifs spécifiques.
-![[Friltre.png]]
+![[Screenshots/Friltre.png]]
 
 - **Cuve de liquide** : Les cuves sont encore en développement.
 
@@ -127,7 +127,7 @@ Ce projet est sous licence [MIT](./LICENCE). Vous êtes libre de modifier, parta
 ---
 
 # Optic Chambers - Puzzle Game
-![[MainMenue.png]]
+![[Screenshots/MainMenue.png]]
 Welcome to **Optic Chambers**, a puzzle game where you must solve challenges by manipulating lasers, mirrors, and other optical elements. This project was developed as part of the **Scientific Game Jam 2023**, an event where participants create games around scientific themes, with PhD students to popularize their research.
 
 ## Table of Contents
@@ -156,31 +156,31 @@ In **Optic Chambers**, you will guide a laser beam using various elements such a
 Here are the elements you can interact with:
 
 - **Laser**: Move and rotate mirrors to reflect the laser.
-![[Lazer.png]]
+![[Screenshots/Lazer.png]]
 - **Receiver**: The game’s target, activated to win. Some buttons can only be activated by lasers of specific colors.
 
-| Target Activated   | Target Deactivated   |
-| ------------------ | -------------------  |
-| ![[Target_ON.png]] | ![[Target_OFF.png]]  |
+| Target Activated               | Target Deactivated              |
+| ------------------------------ | ------------------------------- |
+| ![[Screenshots/Target_ON.png]] | ![[Screenshots/Target_OFF.png]] |
 - **Mirrors**: Move and rotate mirrors to reflect the laser. There are two types: fixed and movable.
 
-|    Fixed Mirror    |  Movable Mirror   |
-| :----------------: | :---------------: |
-| ![[Mirrror_f.png]] | ![[Mirror_m.png]] |
+|  Fixed Mirror  |        Movable Mirror         |
+| :------------: | :---------------------------: |
+| ![[Split.png]] | ![[Screenshots/Mirror_m.png]] |
 - **Splitter**: Refract the light to split the beam into two.
-![[Split.png]]
+![[Screenshots/Split.png]]
 - **Quantum Splitter**: Use a resonance chamber to create entangled beams. These beams consist of a strong twin and a weak twin. Any action performed on the strong twin is mirrored symmetrically on the weak twin.
 
-| Quantum Split Off          | Quantum Split On           |
-| -------------------------- | -------------------------- |
-| ![[Quantic_Split_OFF.png]] | ![[Quantic_Split_ON.png]]  |
+| Quantum Split Off | Quantum Split On                      |
+| ----------------- | ------------------------------------- |
+| ![[Split.png]]    | ![[Screenshots/Quantic_Split_ON.png]] |
 - **Doors and Buttons**: Activate the buttons to open the associated doors. Some buttons can only be activated by lasers of specific colors.
 
-| Door Open         | Door Closed         |
-| ----------------- | ------------------- |
-| ![[Door_open.png]] | ![[Door_Closed.png]] |
+| Door Open                      | Door Closed                      |
+| ------------------------------ | -------------------------------- |
+| ![[Screenshots/Door_open.png]] | ![[Screenshots/Door_Closed.png]] |
 - **Filters**: Modify the colors of the lasers to match specific objectives.
-![[Friltre.png]]
+![[Screenshots/Friltre.png]]
 
 - **Liquid Tanks**: The tanks are still in development.
 
