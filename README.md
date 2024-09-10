@@ -38,6 +38,7 @@ Dans **Optic Chambers**, vous devrez guider un faisceau laser en utilisant diver
 Voici les éléments avec lesquels vous pouvez interagir :
 
 - **Laser** : Déplacez et faites pivoter des miroirs pour réfléchir le laser.
+
   ![Laser](Screenshots/Lazer.png)
 - **Récepteur** : Cible du jeu activée pour gagner, certains boutons ne peuvent être activés que par des lasers de certaines couleurs.
 
@@ -52,6 +53,7 @@ Voici les éléments avec lesquels vous pouvez interagir :
 | ![Miroir Fixe](Mirror_f.png) | ![Miroir Amovible](Screenshots/Mirror_m.png) |
 
 - **Split** : Réfractez la lumière pour diviser le faisceau en deux.
+
   ![Split](Screenshots/Split.png)
 - **Quantic Split** : Utilisez une chambre de résonance pour créer des faisceaux jumelés. Ces faisceaux sont composés d'un jumeau fort et d'un jumeau faible. Toutes les actions effectuées sur le jumeau fort sont répliquées en symétrie sur le jumeau faible.
 
@@ -66,6 +68,7 @@ Voici les éléments avec lesquels vous pouvez interagir :
 | ![Porte Ouverte](Screenshots/Door_open.png) | ![Porte Fermée](Screenshots/Door_Closed.png) |
 
 - **Filtres** : Modifiez les couleurs des lasers pour correspondre aux objectifs spécifiques.
+
   ![Filtres](Screenshots/Friltre.png)
 
 - **Cuve de liquide** : Les cuves sont encore en développement.
@@ -157,6 +160,7 @@ In **Optic Chambers**, you will guide a laser beam using various elements such a
 Here are the elements you can interact with:
 
 - **Laser**: Move and rotate mirrors to reflect the laser.
+
 ![](Screenshots/Lazer.png)
 - **Receiver**: The game’s target, activated to win. Some buttons can only be activated by lasers of specific colors.
 
@@ -169,6 +173,7 @@ Here are the elements you can interact with:
 | :-----------------------------------: | :---------------------------------------------------: |
 | ![f_mirror](Screenshots/Mirror_f.png) | ![Screenshots/Mirror_m.png](Screenshots/Mirror_m.png) |
 - **Splitter**: Refract the light to split the beam into two.
+
 ![](Screenshots/Split.png)
 - **Quantum Splitter**: Use a resonance chamber to create entangled beams. These beams consist of a strong twin and a weak twin. Any action performed on the strong twin is mirrored symmetrically on the weak twin.
 
@@ -181,6 +186,7 @@ Here are the elements you can interact with:
 | ------------------------------ | -------------------------------- |
 | ![](Screenshots/Door_open.png) | ![](Screenshots/Door_Closed.png) |
 - **Filters**: Modify the colors of the lasers to match specific objectives.
+
 ![Filter](Screenshots/Friltre.png)
 
 - **Liquid Tanks**: The tanks are still in development.
@@ -229,8 +235,7 @@ This project was made possible thanks to the collaboration with the University o
 - **Improvement of user experience for moving and storing items**
 
 You can see other projects from Soul Garden below:
-[
-![[https://avatars.githubusercontent.com/u/121958002?s=200&v=4]]](https://github.com/Nepheshria)
+[![Soul Garden](https://avatars.githubusercontent.com/u/121958002?s=200&v=4)](https://github.com/Nepheshria)
 
 ## License
 This project is licensed under the [MIT License](./LICENSE). You are free to modify, share, and use this code in your own projects, as long as the original contributors are credited.
