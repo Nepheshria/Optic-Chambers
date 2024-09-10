@@ -117,6 +117,7 @@ Ce projet a été rendu possible grâce à la collaboration de l'Université de 
 - **Amélioration de l'expérience utilisateur pour le déplacement et le stockage des éléments**
 
 Vous pouvez voir les autres projets de Soul Garden ci-dessous :
+
 [![Soul Garden](https://avatars.githubusercontent.com/u/121958002?s=200&v=4)](https://github.com/Nepheshria)
 
 ## Licence
@@ -235,6 +236,7 @@ This project was made possible thanks to the collaboration with the University o
 - **Improvement of user experience for moving and storing items**
 
 You can see other projects from Soul Garden below:
+
 [![Soul Garden](https://avatars.githubusercontent.com/u/121958002?s=200&v=4)](https://github.com/Nepheshria)
 
 ## License
